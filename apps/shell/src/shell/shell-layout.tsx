@@ -19,9 +19,19 @@ export function ShellLayout() {
           sidebarCollapsed ? "w-16" : "w-72"
         )}
       >
-        <div className="flex h-14 items-center justify-between border-b border-border px-3">
-          <div className={cn("flex items-center gap-2", sidebarCollapsed && "justify-center")}>
-            <FlaskConical className="size-5 text-primary" />
+        <div
+          className={cn(
+            "flex h-14 items-center border-b border-border p-2",
+            sidebarCollapsed ? "justify-center" : "justify-between"
+          )}
+        >
+          <div
+            className={cn(
+              "flex h-10 min-w-0 items-center gap-3 rounded-md px-3",
+              sidebarCollapsed && "hidden"
+            )}
+          >
+            <FlaskConical className="size-4 shrink-0 text-primary" />
             {!sidebarCollapsed && (
               <span className="text-sm font-semibold tracking-normal">Playground</span>
             )}

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@source "../";
+@source "../../../../apps";
+@source "../../../../experiments";
+
 @theme {
   --color-background: hsl(40 18% 97%);
   --color-foreground: hsl(225 14% 12%);
