@@ -27,6 +27,7 @@
 - shell 使用桌面层、实验窗口和底部 Dock。
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Overview 桌面 widget 可以使用统一的 `desktop-widget-motion` 微动反馈；只允许短时 `transform` 位移，不使用布局属性动画，也不得只给单个卡片孤立实现。
+- Overview 桌面 widget 内的主 action 应响应整张卡片 hover：按钮整体轻微右移，不只移动按钮内 icon。
 - 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 负责写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。

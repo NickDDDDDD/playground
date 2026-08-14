@@ -17,7 +17,7 @@ export function HomePage() {
       ref={pageRef}
     >
       <div
-        className="desktop-widget-motion liquid-card rounded-[28px] border p-5 sm:col-span-6 sm:p-7 lg:col-span-7 lg:row-span-2"
+        className="desktop-widget-motion liquid-card group rounded-[28px] border p-5 sm:col-span-6 sm:p-7 lg:col-span-7 lg:row-span-2"
         data-gsap-reveal
       >
         <div className="flex h-full min-h-[20rem] flex-col justify-between">
@@ -32,10 +32,10 @@ export function HomePage() {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button className="group/button" asChild>
+            <Button className="transition-transform group-hover:translate-x-0.5" asChild>
               <Link to={experiments[0]?.path ?? "/"}>
                 Open first lab
-                <ArrowRight className="transition-transform group-hover/button:translate-x-0.5" />
+                <ArrowRight />
               </Link>
             </Button>
             <span className="text-base leading-7 text-muted-foreground sm:text-sm sm:leading-6">
