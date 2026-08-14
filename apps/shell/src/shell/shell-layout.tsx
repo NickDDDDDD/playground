@@ -298,10 +298,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
       const target = getDockMotionTarget(distance, baseSize, intensity);
       const currentState = dockItemStatesRef.current.get(icon) ?? createDockSpringState(baseSize);
       const nextState = stepDockSpring(currentState, target);
-      const tooltipOffset = Math.max(
-        9,
-        -nextState.lift + (nextState.size - baseSize) + 12
-      );
+      const tooltipOffset = Math.max(8, -nextState.lift + 8);
 
       dockItemStatesRef.current.set(icon, nextState);
       icon
@@ -381,7 +378,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-30 flex h-36 items-end justify-center px-3 pb-2 sm:pb-3"
+      className="fixed bottom-0 left-1/2 z-30 flex h-36 min-w-80 max-w-[calc(100vw-1.5rem)] -translate-x-1/2 items-end justify-center px-3 pb-2 sm:pb-3"
       onPointerCancel={handleDockPointerLeave}
       onPointerLeave={handleDockPointerLeave}
       onPointerMove={handleDockPointerMove}

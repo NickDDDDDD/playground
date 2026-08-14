@@ -29,7 +29,7 @@
 - Overview 桌面 widget 的 hover motion 只用于主行动卡片和实验入口卡片；状态卡、功能说明卡等信息展示卡保持静态，避免桌面元素过度漂浮。
 - `desktop-widget-motion` 只允许短时 `transform` 位移，不使用布局属性动画。
 - Overview 桌面 widget 内的主 action 应响应整张可行动卡片 hover：按钮整体轻微右移，不只移动按钮内 icon。
-- 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 负责写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
+- 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 和其他手动套用 `button-spotlight` 的可行动元素都必须写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
 - Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
@@ -43,7 +43,7 @@
 - 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
 - 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
 - 桌面右键菜单属于 shell 层低频操作入口；默认不进入实验包契约。当前菜单可提供打开首个实验、复制当前 URL、复制实验创建命令、进入 Focus / Sleep Screen。
-- Focus / Sleep Screen 是轻量沉浸状态，不是锁屏/登录系统；它不要求密码、不管理账号，也不改变当前路由或实验运行状态。进入和 Wake 都不能硬切，应使用 `entering` / `entered` / `exiting` 三态让浏览器实际播放 transition，再卸载 overlay；Wake 应是 Sleep 进入动效的反向，沿相同位移、缩放、模糊路径退回桌面。
+- Focus / Sleep Screen 是轻量沉浸状态，不是锁屏/登录系统；它不要求密码、不管理账号，也不改变当前路由或实验运行状态。进入和 Wake 都不能硬切，应使用 `entering` / `entered` / `exiting` 三态让浏览器实际播放 transition，再卸载 overlay；Sleep 和 Wake 可以使用淡入淡出、缩放和模糊，但不做上下位移。
 - 长期不做窗口拖拽/自由 resize、真实 app icon 图片资产、wallpaper 管理、完整锁屏/登录/启动系统、Finder/系统设置等 OS 级模拟功能。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
 

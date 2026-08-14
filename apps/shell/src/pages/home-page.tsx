@@ -1,4 +1,12 @@
-import { Button, Card, CardContent, CardHeader, CardTitle, useGsapReveal } from "@playground/ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  setButtonSpotlightPosition,
+  useGsapReveal
+} from "@playground/ui";
 import { ArrowRight, Boxes, CheckCircle2, FlaskConical, Route, Server } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -70,6 +78,20 @@ export function HomePage() {
             className="desktop-widget-motion liquid-card group grid gap-4 rounded-[28px] border p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             key={experiment.id}
             to={experiment.path}
+            onMouseMoveCapture={(event) => {
+              const action = event.currentTarget.querySelector<HTMLElement>(".button-spotlight");
+
+              if (action) {
+                setButtonSpotlightPosition(action, event.clientX, event.clientY);
+              }
+            }}
+            onPointerMoveCapture={(event) => {
+              const action = event.currentTarget.querySelector<HTMLElement>(".button-spotlight");
+
+              if (action) {
+                setButtonSpotlightPosition(action, event.clientX, event.clientY);
+              }
+            }}
           >
             <div className="flex min-w-0 items-start gap-3">
               <div className="flex size-12 shrink-0 items-center justify-center rounded-[18px] bg-primary text-primary-foreground shadow-sm [&_svg]:size-5">
@@ -92,7 +114,9 @@ export function HomePage() {
                 </div>
               </div>
             </div>
-            <span className="button-spotlight inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5">
+            <span
+              className="button-spotlight inline-flex h-10 justify-self-start items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5"
+            >
               Open
               <ArrowRight className="size-4" />
             </span>

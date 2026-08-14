@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import type { VariantProps } from "class-variance-authority";
+import { setButtonSpotlightPosition } from "../lib/button-spotlight";
 import { cn } from "../lib/cn";
 import { buttonVariants } from "./button-variants";
 
@@ -19,10 +20,7 @@ export function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
   const handlePointerMove: React.PointerEventHandler<HTMLButtonElement> = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    event.currentTarget.style.setProperty("--button-spotlight-x", `${event.clientX - rect.left}px`);
-    event.currentTarget.style.setProperty("--button-spotlight-y", `${event.clientY - rect.top}px`);
+    setButtonSpotlightPosition(event.currentTarget, event.clientX, event.clientY);
     onPointerMove?.(event);
   };
 

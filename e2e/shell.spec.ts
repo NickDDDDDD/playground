@@ -52,7 +52,9 @@ test("shell home opens experiments from the dock and window controls work", asyn
         const tooltipBox = tooltip.getBoundingClientRect();
         const iconBox = icon.getBoundingClientRect();
 
-        return tooltipBox.bottom < iconBox.top;
+        const gap = iconBox.top - tooltipBox.bottom;
+
+        return gap >= 4 && gap <= 32;
       })
     )
     .toBe(true);
@@ -102,6 +104,32 @@ test("shell home opens experiments from the dock and window controls work", asyn
   await expect(dock.locator("[data-active='true']")).toHaveCount(0);
 });
 
+test("welcome lab action spotlight follows the pointer", async ({ page }) => {
+  await page.goto("/");
+
+  const openAction = page.locator("main a:has(.button-spotlight) .button-spotlight").last();
+  await expect(openAction).toBeVisible();
+  await page.waitForTimeout(500);
+  const actionBox = await openAction.boundingBox();
+
+  expect(actionBox).not.toBeNull();
+
+  await page.mouse.move((actionBox?.x ?? 0) + 8, (actionBox?.y ?? 0) + 8);
+  const firstPosition = await openAction.evaluate((element) => ({
+    x: element.style.getPropertyValue("--button-spotlight-x"),
+    y: element.style.getPropertyValue("--button-spotlight-y")
+  }));
+
+  await page.mouse.move((actionBox?.x ?? 0) + (actionBox?.width ?? 0) - 8, (actionBox?.y ?? 0) + 8);
+  const secondPosition = await openAction.evaluate((element) => ({
+    x: element.style.getPropertyValue("--button-spotlight-x"),
+    y: element.style.getPropertyValue("--button-spotlight-y")
+  }));
+
+  expect(Math.abs(parseFloat(firstPosition.x) - parseFloat(secondPosition.x))).toBeGreaterThan(20);
+  expect(Math.abs(parseFloat(firstPosition.y) - parseFloat(secondPosition.y))).toBeLessThan(2);
+});
+
 test("desktop context menu can enter and leave focus sleep", async ({ page }) => {
   await page.goto("/");
 
@@ -123,10 +151,11 @@ test("desktop context menu can enter and leave focus sleep", async ({ page }) =>
   await expect
     .poll(async () =>
       focusScreen.evaluate((element) => {
+        const opacity = Number(window.getComputedStyle(element).opacity);
         const transform = window.getComputedStyle(element).transform;
         const translateY = transform === "none" ? 0 : Number(transform.split(", ")[5]?.replace(")", ""));
 
-        return translateY > 0;
+        return opacity < 1 && translateY === 0;
       })
     )
     .toBe(true);

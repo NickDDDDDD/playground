@@ -341,14 +341,14 @@
   .sleep-screen[data-state="entering"] {
     opacity: 0;
     filter: blur(16px);
-    transform: translateY(7%) scale(0.96);
+    transform: scale(0.96);
   }
 
   .sleep-screen[data-state="exiting"] {
     opacity: 0;
     filter: blur(16px);
     pointer-events: none;
-    transform: translateY(7%) scale(0.96);
+    transform: scale(0.96);
   }
 
   .sleep-screen-clock {
