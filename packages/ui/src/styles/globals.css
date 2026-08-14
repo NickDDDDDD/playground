@@ -348,7 +348,7 @@
     opacity: 0;
     filter: blur(16px);
     pointer-events: none;
-    transform: translateY(-8%) scale(0.96);
+    transform: translateY(7%) scale(0.96);
   }
 
   .sleep-screen-clock {

@@ -83,12 +83,21 @@ test("desktop context menu can enter and leave focus sleep", async ({ page }) =>
   const focusScreen = page.getByRole("dialog", { name: "Focus screen" });
 
   await expect(focusScreen).toBeVisible();
-  await expect(focusScreen).toHaveAttribute("data-state", "entering");
   await expect(focusScreen).toHaveAttribute("data-state", "entered", { timeout: 1_000 });
   await expect(page.getByRole("button", { name: "Wake Playground" })).toBeVisible();
 
   await page.getByRole("button", { name: "Wake Playground" }).click();
   await expect(focusScreen).toHaveAttribute("data-state", "exiting");
+  await expect
+    .poll(async () =>
+      focusScreen.evaluate((element) => {
+        const transform = window.getComputedStyle(element).transform;
+        const translateY = transform === "none" ? 0 : Number(transform.split(", ")[5]?.replace(")", ""));
+
+        return translateY > 0;
+      })
+    )
+    .toBe(true);
   await expect(focusScreen).toHaveCount(0);
   await expect(
     page.getByRole("heading", {
