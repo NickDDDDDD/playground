@@ -5,21 +5,21 @@
 @source "../../../../experiments";
 
 @theme {
-  --color-background: hsl(211 36% 94%);
-  --color-foreground: hsl(218 34% 9%);
-  --color-card: hsl(210 40% 98%);
-  --color-card-foreground: hsl(218 34% 9%);
-  --color-primary: hsl(210 96% 34%);
+  --color-background: hsl(220 22% 90%);
+  --color-foreground: hsl(240 6% 10%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(240 6% 10%);
+  --color-primary: hsl(211 100% 42%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(211 42% 90%);
-  --color-secondary-foreground: hsl(218 34% 9%);
-  --color-muted: hsl(211 35% 89%);
-  --color-muted-foreground: hsl(217 20% 32%);
-  --color-accent: hsl(201 100% 92%);
-  --color-accent-foreground: hsl(218 34% 9%);
-  --color-border: hsl(211 28% 78%);
-  --color-input: hsl(211 28% 72%);
-  --color-ring: hsl(210 96% 34%);
+  --color-secondary: hsl(240 12% 92%);
+  --color-secondary-foreground: hsl(240 6% 10%);
+  --color-muted: hsl(240 11% 88%);
+  --color-muted-foreground: hsl(240 5% 35%);
+  --color-accent: hsl(211 100% 94%);
+  --color-accent-foreground: hsl(240 6% 10%);
+  --color-border: hsl(240 9% 72%);
+  --color-input: hsl(240 8% 72%);
+  --color-ring: hsl(211 100% 42%);
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -38,10 +38,7 @@
     min-height: 100vh;
     margin: 0;
     background:
-      radial-gradient(circle at 18% 18%, hsl(205 100% 88% / 0.95), transparent 28rem),
-      radial-gradient(circle at 88% 14%, hsl(278 88% 90% / 0.7), transparent 30rem),
-      radial-gradient(circle at 58% 84%, hsl(161 72% 84% / 0.75), transparent 32rem),
-      linear-gradient(135deg, hsl(211 42% 96%), hsl(218 44% 91%) 48%, hsl(205 55% 94%));
+      linear-gradient(135deg, hsl(214 100% 19%), hsl(211 100% 45%) 35%, hsl(277 80% 56%) 62%, hsl(24 100% 58%) 100%);
     color: var(--color-foreground);
   }
 
@@ -58,22 +55,20 @@
     overflow: hidden;
     isolation: isolate;
     background:
-      linear-gradient(120deg, hsl(211 55% 96% / 0.62), hsl(210 100% 98% / 0.18)),
-      radial-gradient(circle at 22% 16%, hsl(202 100% 84% / 0.78), transparent 24rem),
-      radial-gradient(circle at 75% 10%, hsl(281 87% 87% / 0.64), transparent 26rem),
-      radial-gradient(circle at 70% 82%, hsl(156 80% 82% / 0.58), transparent 30rem);
+      linear-gradient(120deg, hsl(219 100% 12% / 0.58), transparent 36%),
+      conic-gradient(from 220deg at 68% 46%, hsl(211 100% 44%), hsl(262 78% 55%), hsl(315 80% 56%), hsl(23 100% 61%), hsl(48 100% 64%), hsl(207 96% 49%)),
+      linear-gradient(145deg, hsl(215 100% 18%), hsl(236 78% 34%) 54%, hsl(20 100% 58%));
   }
 
   .desktop-wallpaper::before {
     content: "";
     position: absolute;
-    inset: -18%;
+    inset: -28%;
     z-index: -2;
     background:
-      conic-gradient(from 180deg at 28% 28%, hsl(206 92% 70% / 0.2), transparent 18%, hsl(270 78% 84% / 0.22), transparent 44%, hsl(156 74% 78% / 0.18), transparent 72%, hsl(206 92% 70% / 0.2)),
-      linear-gradient(135deg, hsl(214 50% 96%), hsl(220 54% 89%));
-    filter: blur(18px) saturate(1.2);
-    transform: rotate(-7deg) scale(1.08);
+      conic-gradient(from 35deg at 42% 52%, hsl(201 100% 58% / 0.7), hsl(257 95% 64% / 0.52), hsl(330 100% 64% / 0.5), hsl(36 100% 62% / 0.68), hsl(201 100% 58% / 0.7));
+    filter: blur(34px) saturate(1.18);
+    transform: rotate(-13deg) scale(1.12);
   }
 
   .desktop-wallpaper::after {
@@ -81,11 +76,9 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image:
-      linear-gradient(hsl(218 34% 100% / 0.18) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(218 34% 100% / 0.14) 1px, transparent 1px);
-    background-size: 88px 88px;
-    mask-image: linear-gradient(to bottom, transparent, black 14%, black 70%, transparent);
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.14), transparent 34%, hsl(240 30% 6% / 0.18)),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.08), transparent 28%, hsl(240 28% 8% / 0.14));
   }
 
   .liquid-glass {
@@ -94,12 +87,12 @@
     overflow: hidden;
     border: 1px solid hsl(0 0% 100% / 0.48);
     background:
-      linear-gradient(135deg, hsl(0 0% 100% / 0.62), hsl(0 0% 100% / 0.18)),
-      hsl(210 70% 99% / 0.3);
+      linear-gradient(135deg, hsl(0 0% 100% / 0.66), hsl(0 0% 100% / 0.18)),
+      hsl(240 24% 100% / 0.24);
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.72),
       inset 0 -1px 0 hsl(0 0% 100% / 0.22),
-      0 24px 70px hsl(220 45% 18% / 0.18);
+      0 24px 70px hsl(240 24% 8% / 0.22);
     backdrop-filter: blur(28px) saturate(180%) contrast(1.04);
     -webkit-backdrop-filter: blur(28px) saturate(180%) contrast(1.04);
   }
@@ -111,8 +104,8 @@
     z-index: -1;
     border-radius: inherit;
     background:
-      radial-gradient(circle at 16% 0%, hsl(0 0% 100% / 0.72), transparent 28%),
-      linear-gradient(90deg, hsl(0 0% 100% / 0.2), transparent 46%, hsl(0 0% 100% / 0.18));
+      linear-gradient(180deg, hsl(0 0% 100% / 0.36), transparent 44%),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.2), transparent 46%, hsl(0 0% 100% / 0.16));
     pointer-events: none;
   }
 
@@ -142,13 +135,13 @@
     border: 1px solid hsl(0 0% 100% / 0.46);
     border-radius: 24px;
     background:
-      linear-gradient(180deg, hsl(0 0% 100% / 0.52), hsl(0 0% 100% / 0.18)),
-      hsl(210 36% 96% / 0.22);
+      linear-gradient(180deg, hsl(0 0% 100% / 0.5), hsl(0 0% 100% / 0.16)),
+      hsl(240 24% 100% / 0.26);
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.78),
       inset 0 -1px 0 hsl(214 42% 58% / 0.14),
       0 1px 0 hsl(0 0% 100% / 0.4),
-      0 18px 44px hsl(220 45% 18% / 0.26);
+      0 18px 44px hsl(240 24% 8% / 0.32);
     transform-origin: bottom center;
     backdrop-filter: blur(34px) saturate(190%) contrast(1.04);
     -webkit-backdrop-filter: blur(34px) saturate(190%) contrast(1.04);
@@ -185,8 +178,8 @@
     overflow: hidden;
     border-radius: 22.37%;
     background:
-      radial-gradient(circle at 30% 18%, hsl(199 100% 82% / 0.72), transparent 30%),
-      linear-gradient(180deg, hsl(207 100% 58%), hsl(212 100% 38%) 52%, hsl(218 100% 20%));
+      radial-gradient(circle at 30% 18%, hsl(199 100% 82% / 0.7), transparent 30%),
+      linear-gradient(180deg, hsl(207 100% 58%), hsl(211 100% 50%) 52%, hsl(216 100% 28%));
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.5),
       inset 0 -1px 0 hsl(214 100% 9% / 0.36),
@@ -242,11 +235,11 @@
   .liquid-card {
     border-color: hsl(0 0% 100% / 0.46);
     background:
-      linear-gradient(145deg, hsl(0 0% 100% / 0.62), hsl(0 0% 100% / 0.24)),
-      hsl(210 60% 99% / 0.24);
+      linear-gradient(145deg, hsl(0 0% 100% / 0.6), hsl(0 0% 100% / 0.2)),
+      hsl(240 24% 100% / 0.22);
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.62),
-      0 16px 50px hsl(220 45% 18% / 0.12);
+      0 18px 56px hsl(240 24% 8% / 0.2);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
   }

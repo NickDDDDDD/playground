@@ -9,8 +9,9 @@
 当前 shell 使用 Apple desktop / liquid glass web approximation 方向：
 
 - light theme。
-- 背景模拟 macOS 桌面壁纸，但只作为低对比度环境层。
-- blue 作为唯一 action accent。
+- 背景模拟 Ventura / Monterey 风格的高饱和抽象 macOS wallpaper，但不直接拷贝 Apple 资产。
+- blue 作为唯一 action accent；按钮和正文小字使用经过 WCAG 对比度校正的可访问 system blue。
+- 基础灰阶使用中性 system gray，避免偏蓝的 SaaS dashboard 质感。
 - 玻璃材质使用 `backdrop-filter`、半透明背景、内高光和柔和阴影实现。
 - 这种材质是 Web 近似，不是 Apple 官方 Liquid Glass Web API。
 - 大窗口使用更重的 glass material，Dock 和卡片使用较轻 material。
@@ -31,6 +32,7 @@
 - Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。
 - Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
 - Dock 的尺寸和圆角是 Web 近似值，不记录为 Apple 官方固定 token；后续调整应优先保持比例、材质层级和交互语义一致。
+- 颜色和材质参考 `PuruVJ/macos-web` 这类高星 macOS web desktop 项目的系统感，但不能直接复制其代码或 Apple 版权资产。
 - 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
 - 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
