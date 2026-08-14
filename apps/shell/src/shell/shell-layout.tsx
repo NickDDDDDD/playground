@@ -14,12 +14,12 @@ import {
   wakePlayground
 } from "../store/slices/app-layout-slice";
 import {
-  createDockSpringState,
+  createDockMotionState,
   getDockInteractionIntensity,
   getDockMotionTarget,
-  isDockSpringSettled,
-  stepDockSpring,
-  type DockSpringState
+  isDockMotionSettled,
+  stepDockMotion,
+  type DockMotionState
 } from "./dock-magnification";
 
 export function ShellLayout() {
@@ -241,7 +241,7 @@ type ExperimentDockProps = {
 
 function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockProps) {
   const dockRef = useRef<HTMLElement>(null);
-  const dockItemStatesRef = useRef(new Map<HTMLElement, DockSpringState>());
+  const dockItemStatesRef = useRef(new Map<HTMLElement, DockMotionState>());
   const dockFrameRef = useRef<number | null>(null);
   const animateDockRef = useRef<() => void>(() => undefined);
   const dockPointerXRef = useRef<number | null>(null);
@@ -296,8 +296,8 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
         pointerY === null ? 0 : getDockInteractionIntensity(pointerY, dockRect, baseSize);
       const distance = pointerX === null ? null : pointerX - (rect.left + rect.width / 2);
       const target = getDockMotionTarget(distance, baseSize, intensity);
-      const currentState = dockItemStatesRef.current.get(icon) ?? createDockSpringState(baseSize);
-      const nextState = stepDockSpring(currentState, target);
+      const currentState = dockItemStatesRef.current.get(icon) ?? createDockMotionState(baseSize);
+      const nextState = stepDockMotion(currentState, target);
       const tooltipOffset = Math.max(8, -nextState.lift + 8);
 
       dockItemStatesRef.current.set(icon, nextState);
@@ -309,7 +309,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
       icon.style.transform = `translateY(${nextState.lift.toFixed(2)}px)`;
       icon.style.willChange = "width, height, transform";
 
-      if (!isDockSpringSettled(nextState, target)) {
+      if (!isDockMotionSettled(nextState, target)) {
         allSettled = false;
       }
     });

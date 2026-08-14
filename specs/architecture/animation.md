@@ -83,7 +83,8 @@ GSAP 相关依赖安装在共享 UI 包 `@playground/ui` 中：
 ## 性能规则
 
 - 优先动画 `transform` 和 `opacity`。
-- 避免动画 `width`、`height`、`top`、`left` 等触发布局计算的属性。
+- 默认避免动画 `width`、`height`、`top`、`left` 等触发布局计算的属性。
+- Dock magnification 是已记录的受控例外：为了表达 macOS Dock 的空间关系，可以在少量 Dock item 上按指针距离插值 `width` / `height`，但必须限制在 Dock 交互内，支持 `prefers-reduced-motion`，并通过 Playwright 覆盖接近触发和 tooltip 避让；不要推广到普通 UI。
 - 不使用高频手写 `scroll` listener 实现滚动动画；需要滚动编排时优先评估 ScrollTrigger。
 - 不使用无边界的全局 selector；动画 selector 必须被组件 root ref 或等价 scope 限定。
 - 不让动画成为读取内容或完成操作的前置条件。

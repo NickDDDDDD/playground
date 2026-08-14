@@ -3,7 +3,7 @@ export type DockMotionTarget = {
   size: number;
 };
 
-export type DockSpringState = DockMotionTarget & {
+export type DockMotionState = DockMotionTarget & {
   liftVelocity: number;
   sizeVelocity: number;
 };
@@ -17,7 +17,7 @@ export const dockMagnificationConfig = {
   settleEpsilon: 0.01
 } as const;
 
-export function createDockSpringState(baseSize: number): DockSpringState {
+export function createDockMotionState(baseSize: number): DockMotionState {
   return {
     lift: 0,
     liftVelocity: 0,
@@ -58,10 +58,10 @@ export function getDockMotionTarget(
   };
 }
 
-export function stepDockSpring(
-  state: DockSpringState,
+export function stepDockMotion(
+  state: DockMotionState,
   target: DockMotionTarget
-): DockSpringState {
+): DockMotionState {
   const sizeVelocity = (target.size - state.size) * dockMagnificationConfig.approachFactor;
   const liftVelocity = (target.lift - state.lift) * dockMagnificationConfig.approachFactor;
 
@@ -73,7 +73,7 @@ export function stepDockSpring(
   };
 }
 
-export function isDockSpringSettled(state: DockSpringState, target: DockMotionTarget) {
+export function isDockMotionSettled(state: DockMotionState, target: DockMotionTarget) {
   return (
     Math.abs(state.size - target.size) < dockMagnificationConfig.settleEpsilon &&
     Math.abs(state.sizeVelocity) < dockMagnificationConfig.settleEpsilon &&

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
-  createDockSpringState,
+  createDockMotionState,
   dockMagnificationConfig,
   getDockInteractionIntensity,
   getDockMotionTarget,
-  stepDockSpring
+  stepDockMotion
 } from "./dock-magnification";
 
 describe("dock magnification", () => {
@@ -46,10 +46,10 @@ describe("dock magnification", () => {
 
   it("approaches the current target without overshooting", () => {
     const baseSize = 56;
-    const state = createDockSpringState(baseSize);
+    const state = createDockMotionState(baseSize);
     const target = getDockMotionTarget(0, baseSize);
-    const firstStep = stepDockSpring(state, target);
-    const secondStep = stepDockSpring(firstStep, target);
+    const firstStep = stepDockMotion(state, target);
+    const secondStep = stepDockMotion(firstStep, target);
 
     expect(firstStep.size).toBeGreaterThan(baseSize);
     expect(firstStep.size).toBeLessThan(target.size);
