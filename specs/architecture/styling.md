@@ -6,14 +6,15 @@
 
 ## 视觉方向
 
-当前 shell 使用 calm dev-tool / lab-console 方向：
+当前 shell 使用 Apple desktop / liquid glass web approximation 方向：
 
 - light theme。
-- 冷静浅灰背景。
-- emerald 作为唯一 action accent。
-- amber 只用于低频 icon tile 和辅助强调。
-- 边框与阴影都保持轻量，避免黑边卡片和强装饰。
-- 首页和实验页应像长期使用的工作台，不做 marketing hero。
+- 背景模拟 macOS 桌面壁纸，但只作为低对比度环境层。
+- blue 作为唯一 action accent。
+- 玻璃材质使用 `backdrop-filter`、半透明背景、内高光和柔和阴影实现。
+- 这种材质是 Web 近似，不是 Apple 官方 Liquid Glass Web API。
+- 大窗口使用更重的 glass material，Dock 和卡片使用较轻 material。
+- 首页和实验页应像桌面工作区，不做 marketing hero。
 
 ## 行为
 
@@ -22,8 +23,23 @@
 - apps 和 experiments 都导入共享 stylesheet。
 - UI 组件从 `packages/ui` 导出。
 - Tailwind source discovery 集中在共享 stylesheet 中维护。
-- Sidebar 的 brand icon 和 nav icon 使用同一套水平节奏。
-- 窄屏视口下 shell navigation 堆叠在内容上方，避免展开态 sidebar 和主内容并排造成横向溢出。
+- shell 使用顶部菜单栏、中央窗口和底部 Dock。
+- 顶部 `Playground` 标题链接回到 Overview。
+- Dock 只展示实验入口；每个实验是一个 Dock item。
+- Dock 可隐藏，让窗口区域获得更多空间。
+- 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
+
+## Material 基础层
+
+共享 stylesheet 提供这些可复用 class：
+
+- `desktop-wallpaper`：桌面背景层。
+- `liquid-glass`：结构性 glass surface，用于菜单栏、窗口和 Dock。
+- `liquid-window`：窗口级半径规则。
+- `liquid-dock`：Dock 级半径规则。
+- `liquid-card`：内容卡片级 glass surface。
+
+这些 class 必须包含 reduced-transparency 和 high-contrast fallback。业务组件不应该散落重复的 glass CSS。
 
 ## Tailwind Source Discovery
 
@@ -40,5 +56,7 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - shell 和独立运行的实验项目共享同一套主题。
 - 可复用 primitives 从 `@playground/ui` 导入。
 - 共享 UI primitives 能保留 `inline-flex`、`size-*`、`gap-*` 等布局 utility。
-- sidebar header icon 和 nav icon 在展开态、折叠态都对齐在同一条水平轴线上。
-- mobile viewport 不出现由 shell navigation 或长命令文本造成的页面级横向滚动。
+- `Playground` 标题可以回到 Overview。
+- 实验入口出现在底部 Dock，而不是左侧 sidebar。
+- Dock 隐藏不会改变当前路由。
+- mobile viewport 不出现由 shell navigation、Dock 或长命令文本造成的页面级横向滚动。

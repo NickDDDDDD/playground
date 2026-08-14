@@ -1,22 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type AppLayoutState = {
-  sidebarCollapsed: boolean;
+  dockCollapsed: boolean;
 };
 
 const initialState: AppLayoutState = {
-  sidebarCollapsed: false
+  dockCollapsed: false
 };
 
 const appLayoutSlice = createSlice({
   name: "appLayout",
   initialState,
   reducers: {
-    toggleSidebar(state) {
-      state.sidebarCollapsed = !state.sidebarCollapsed;
+    toggleDock(state) {
+      state.dockCollapsed = !state.dockCollapsed;
     }
   }
 });
 
-export const { toggleSidebar } = appLayoutSlice.actions;
+export const { toggleDock } = appLayoutSlice.actions;
 export const appLayoutReducer = appLayoutSlice.reducer;
