@@ -18,4 +18,5 @@
 
 - `/experiments/welcome` 可以在 shell 中渲染。
 - `pnpm --filter @playground/experiment-welcome dev` 可以独立启动实验。
+- 在 `experiments/welcome` 目录下运行 `pnpm dev` 也可以独立启动实验。
 - typecheck 和 build 通过。

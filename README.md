@@ -16,6 +16,7 @@ A spec-driven React playground for exploring new frontend technologies.
 pnpm install
 pnpm dev
 pnpm --filter @playground/experiment-welcome dev
+cd experiments/welcome && pnpm dev
 pnpm typecheck
 pnpm build
 ```

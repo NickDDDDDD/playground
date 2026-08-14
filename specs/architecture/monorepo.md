@@ -15,4 +15,5 @@
 
 - `pnpm dev` 可以启动 shell。
 - `pnpm -r build` 可以构建所有 workspace 包。
-- 单个实验可以通过 `pnpm --filter <experiment> dev` 独立启动。
+- 单个实验可以从仓库根目录通过 `pnpm --filter <experiment> dev` 独立启动。
+- 进入实验包目录后，也可以直接运行 `pnpm dev` 启动该实验。

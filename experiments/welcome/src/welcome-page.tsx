@@ -28,9 +28,14 @@ export function WelcomePage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <code className="rounded-md bg-muted px-2 py-1 text-xs">
-              pnpm --filter @playground/experiment-welcome dev
-            </code>
+            <div className="flex flex-col gap-2">
+              <code className="rounded-md bg-muted px-2 py-1 text-xs">
+                pnpm --filter @playground/experiment-welcome dev
+              </code>
+              <code className="rounded-md bg-muted px-2 py-1 text-xs">
+                cd experiments/welcome && pnpm dev
+              </code>
+            </div>
           </CardContent>
         </Card>
 
