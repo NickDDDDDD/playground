@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type AppLayoutState = {
+  runningExperimentId: string | null;
   windowMaximized: boolean;
-  windowMinimized: boolean;
 };
 
 const initialState: AppLayoutState = {
-  windowMaximized: false,
-  windowMinimized: false
+  runningExperimentId: null,
+  windowMaximized: false
 };
 
 const appLayoutSlice = createSlice({
@@ -15,22 +15,22 @@ const appLayoutSlice = createSlice({
   initialState,
   reducers: {
     closeWindow(state) {
+      state.runningExperimentId = null;
       state.windowMaximized = false;
-      state.windowMinimized = false;
     },
-    minimizeWindow(state) {
-      state.windowMinimized = true;
+    minimizeWindow(state, action: { payload: string }) {
+      state.runningExperimentId = action.payload;
+      state.windowMaximized = false;
     },
-    restoreWindow(state) {
-      state.windowMinimized = false;
+    openWindow(state, action: { payload: string }) {
+      state.runningExperimentId = action.payload;
     },
     toggleWindowMaximized(state) {
       state.windowMaximized = !state.windowMaximized;
-      state.windowMinimized = false;
     }
   }
 });
 
-export const { closeWindow, minimizeWindow, restoreWindow, toggleWindowMaximized } =
+export const { closeWindow, minimizeWindow, openWindow, toggleWindowMaximized } =
   appLayoutSlice.actions;
 export const appLayoutReducer = appLayoutSlice.reducer;

@@ -19,6 +19,7 @@ test("shell home opens experiments from the dock and window controls work", asyn
   await page.getByRole("link", { name: "Welcome Lab" }).click();
   await expect(page).toHaveURL(/\/experiments\/welcome$/);
   await expect(page.getByRole("heading", { name: "Welcome Lab" })).toBeVisible();
+  const windowBox = await page.locator(".liquid-window").boundingBox();
 
   const maximize = page.getByRole("button", { name: "Maximize window" });
   await expect(maximize).toHaveAttribute("aria-pressed", "false");
@@ -27,12 +28,27 @@ test("shell home opens experiments from the dock and window controls work", asyn
     "aria-pressed",
     "true"
   );
+  await expect
+    .poll(async () => {
+      const maximizedBox = await page.locator(".liquid-window").boundingBox();
+
+      return maximizedBox?.height ?? 0;
+    })
+    .toBeGreaterThan((windowBox?.height ?? 0) + 50);
+  const maximizedBox = await page.locator(".liquid-window").boundingBox();
+  expect(maximizedBox?.width).toBeGreaterThan((windowBox?.width ?? 0) + 50);
+  expect(maximizedBox?.height).toBeGreaterThan((windowBox?.height ?? 0) + 50);
 
   await page.getByRole("button", { name: "Minimize window" }).click();
-  await expect(page.getByText("Welcome Lab is minimized")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Welcome Lab" })).toBeHidden();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(
+    page.getByRole("heading", {
+      name: "Explore new frontend ideas without losing the system."
+    })
+  ).toBeVisible();
+  await expect(dock.locator("[data-active='true']")).toBeVisible();
 
-  await page.getByRole("link", { name: "Welcome Lab" }).click();
+  await dock.getByRole("link", { name: "Welcome Lab" }).click();
   await expect(page.getByRole("heading", { name: "Welcome Lab" })).toBeVisible();
 
   await page.getByRole("button", { name: "Close window" }).click();
@@ -42,4 +58,5 @@ test("shell home opens experiments from the dock and window controls work", asyn
       name: "Explore new frontend ideas without losing the system."
     })
   ).toBeVisible();
+  await expect(dock.locator("[data-active='true']")).toHaveCount(0);
 });

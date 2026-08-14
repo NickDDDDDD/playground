@@ -27,7 +27,8 @@
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
-- 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、最大化状态。
+- 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
+- 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
 
 ## Material 基础层
@@ -61,5 +62,6 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - `/` 可以直接显示 Overview 桌面。
 - Overview 不出现在 Dock。
 - 实验入口出现在底部 Dock，而不是左侧 sidebar。
-- 实验窗口最小化不会改变当前路由，点击对应 Dock item 可以恢复。
+- 实验窗口最小化后回到桌面，点击对应 Dock item 可以恢复。
+- 实验窗口最大化后应占满 viewport，并隐藏 Dock。
 - mobile viewport 不出现由 shell navigation、Dock 或长命令文本造成的页面级横向滚动。

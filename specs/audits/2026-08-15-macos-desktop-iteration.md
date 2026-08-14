@@ -14,9 +14,10 @@ Reading this as: Mac-like playground desktop for a technical owner, with a stron
 - Dock 只承载实验入口。
 - 实验路由才显示窗口 chrome。
 - 红色关闭按钮返回 `/`。
-- 黄色最小化按钮隐藏实验窗口，但保持当前实验路由。
+- 黄色最小化按钮返回 `/`，但保留当前实验的运行状态。
+- 最小化和关闭都显示桌面；区别是最小化保留 Dock 运行指示点，关闭清除运行指示点。
 - 点击对应实验 Dock item 恢复最小化窗口。
-- 绿色按钮在普通窗口和最大化窗口之间切换。
+- 绿色按钮在普通窗口和全屏窗口之间切换。
 
 这些决策使用以下规则：
 
@@ -47,8 +48,10 @@ Reading this as: Mac-like playground desktop for a technical owner, with a stron
 - Dock 只包含实验入口。
 - 从 Dock 可以打开 `/experiments/welcome`。
 - 关闭窗口返回 `/`。
-- 最小化窗口后当前路由保持 `/experiments/welcome`。
+- 最小化窗口后当前路由返回 `/`。
+- 最小化后 Welcome Lab Dock item 保留运行指示点。
+- 关闭窗口后 Welcome Lab Dock item 不保留运行指示点。
 - 点击 Welcome Lab Dock item 可以恢复最小化窗口。
-- 最大化按钮可以切换窗口大小状态。
+- 最大化按钮可以切换到占满 viewport 的全屏窗口状态。
 - desktop 和 mobile viewport 不出现页面级横向滚动。
 - `pnpm lint`、`pnpm typecheck`、`pnpm test`、`pnpm build`、`pnpm test:e2e:headless` 通过。

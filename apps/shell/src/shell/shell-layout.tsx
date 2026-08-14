@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   closeWindow,
   minimizeWindow,
-  restoreWindow,
+  openWindow,
   toggleWindowMaximized
 } from "../store/slices/app-layout-slice";
 
@@ -14,7 +14,7 @@ export function ShellLayout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { windowMaximized, windowMinimized } = useAppSelector((state) => state.appLayout);
+  const { runningExperimentId, windowMaximized } = useAppSelector((state) => state.appLayout);
   const activeExperiment = experiments.find((experiment) =>
     location.pathname.startsWith(experiment.path)
   );
@@ -28,13 +28,11 @@ export function ShellLayout() {
         ) : (
           <div
             className={cn(
-              "liquid-glass liquid-window mx-auto flex min-w-0 flex-col self-start transition-[height,width,opacity,transform] duration-300",
+              "liquid-glass liquid-window mx-auto flex min-w-0 flex-col self-start transition-[height,width,opacity,transform,border-radius] duration-300",
               windowMaximized
-                ? "h-[calc(100dvh-8.5rem)] w-full"
-                : "h-[calc(100dvh-10.5rem)] min-h-[32rem] w-full max-w-6xl",
-              windowMinimized && "pointer-events-none translate-y-8 opacity-0"
+                ? "liquid-window-fullscreen"
+                : "h-[calc(100dvh-10.5rem)] min-h-[32rem] w-full max-w-6xl"
             )}
-            aria-hidden={windowMinimized}
           >
             <div className="flex h-11 shrink-0 items-center gap-2 border-b border-white/40 px-4">
               <WindowControl
@@ -50,7 +48,12 @@ export function ShellLayout() {
                 ariaLabel="Minimize window"
                 className="bg-[#febc2e] hover:bg-[#febc2e]"
                 glyph="-"
-                onClick={() => dispatch(minimizeWindow())}
+                onClick={() => {
+                  if (activeExperiment) {
+                    dispatch(minimizeWindow(activeExperiment.id));
+                  }
+                  navigate("/");
+                }}
               />
               <WindowControl
                 ariaLabel={windowMaximized ? "Restore window" : "Maximize window"}
@@ -64,27 +67,18 @@ export function ShellLayout() {
               </span>
             </div>
             <div className="min-w-0 flex-1 overflow-y-auto">
-              {!windowMinimized && <Outlet />}
+              <Outlet />
             </div>
-          </div>
-        )}
-
-        {!isOverview && windowMinimized && (
-          <div className="pointer-events-none absolute inset-x-0 top-[34%] mx-auto flex max-w-sm flex-col items-center rounded-[26px] bg-white/30 px-5 py-4 text-center shadow-[inset_0_1px_0_rgb(255_255_255_/_0.52),0_20px_60px_rgb(15_23_42_/_0.16)] backdrop-blur-2xl">
-            <p className="text-base font-medium text-foreground">
-              {activeExperiment?.title ?? "Experiment"} is minimized
-            </p>
-            <p className="mt-1 text-base leading-7 text-muted-foreground sm:text-sm sm:leading-6">
-              Click its Dock icon to restore the window.
-            </p>
           </div>
         )}
       </main>
 
-      <ExperimentDock
-        activeExperimentId={activeExperiment?.id}
-        onDockNavigate={() => dispatch(restoreWindow())}
-      />
+      {!windowMaximized && (
+        <ExperimentDock
+          runningExperimentId={activeExperiment?.id ?? runningExperimentId}
+          onDockNavigate={(experimentId) => dispatch(openWindow(experimentId))}
+        />
+      )}
     </div>
   );
 }
@@ -121,11 +115,11 @@ function WindowControl({
 }
 
 type ExperimentDockProps = {
-  activeExperimentId: string | undefined;
-  onDockNavigate: () => void;
+  runningExperimentId: string | null | undefined;
+  onDockNavigate: (experimentId: string) => void;
 };
 
-function ExperimentDock({ activeExperimentId, onDockNavigate }: ExperimentDockProps) {
+function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockProps) {
   return (
     <nav
       aria-label="Experiment dock"
@@ -133,8 +127,9 @@ function ExperimentDock({ activeExperimentId, onDockNavigate }: ExperimentDockPr
     >
       {experiments.map((experiment) => (
         <DockLink
-          active={activeExperimentId === experiment.id}
+          active={runningExperimentId === experiment.id}
           key={experiment.id}
+          id={experiment.id}
           label={experiment.title}
           to={experiment.path}
           onNavigate={onDockNavigate}
@@ -146,12 +141,13 @@ function ExperimentDock({ activeExperimentId, onDockNavigate }: ExperimentDockPr
 
 type DockLinkProps = {
   active: boolean;
+  id: string;
   label: string;
   to: string;
-  onNavigate: () => void;
+  onNavigate: (experimentId: string) => void;
 };
 
-function DockLink({ active, label, to, onNavigate }: DockLinkProps) {
+function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
   return (
     <NavLink
       aria-label={label}
@@ -163,7 +159,7 @@ function DockLink({ active, label, to, onNavigate }: DockLinkProps) {
       }
       title={label}
       to={to}
-      onClick={onNavigate}
+      onClick={() => onNavigate(id)}
     >
       <span className="mac-dock-icon flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255_/_0.3),0_10px_24px_rgb(15_23_42_/_0.24)] transition-transform duration-150 group-hover/dock:scale-110 sm:size-16 sm:rounded-[20px] [&_svg]:size-7">
         <FlaskConical />

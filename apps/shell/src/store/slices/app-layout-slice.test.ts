@@ -3,41 +3,43 @@ import {
   appLayoutReducer,
   closeWindow,
   minimizeWindow,
-  restoreWindow,
+  openWindow,
   toggleWindowMaximized
 } from "./app-layout-slice";
 
 describe("appLayoutReducer", () => {
-  it("starts with a normal visible window", () => {
+  it("starts with no running experiment and a normal window size", () => {
     const state = appLayoutReducer(undefined, { type: "unknown" });
 
+    expect(state.runningExperimentId).toBeNull();
     expect(state.windowMaximized).toBe(false);
-    expect(state.windowMinimized).toBe(false);
   });
 
-  it("minimizes and restores the window", () => {
-    const minimized = appLayoutReducer(undefined, minimizeWindow());
-    const restored = appLayoutReducer(minimized, restoreWindow());
+  it("keeps the experiment running when minimized", () => {
+    const minimized = appLayoutReducer(undefined, minimizeWindow("welcome"));
+    const restored = appLayoutReducer(minimized, openWindow("welcome"));
 
-    expect(minimized.windowMinimized).toBe(true);
-    expect(restored.windowMinimized).toBe(false);
+    expect(minimized.runningExperimentId).toBe("welcome");
+    expect(minimized.windowMaximized).toBe(false);
+    expect(restored.runningExperimentId).toBe("welcome");
   });
 
-  it("toggles maximized state and clears minimized state", () => {
-    const minimized = appLayoutReducer(undefined, minimizeWindow());
-    const maximized = appLayoutReducer(minimized, toggleWindowMaximized());
+  it("toggles maximized state", () => {
+    const running = appLayoutReducer(undefined, openWindow("welcome"));
+    const maximized = appLayoutReducer(running, toggleWindowMaximized());
     const restored = appLayoutReducer(maximized, toggleWindowMaximized());
 
     expect(maximized.windowMaximized).toBe(true);
-    expect(maximized.windowMinimized).toBe(false);
+    expect(maximized.runningExperimentId).toBe("welcome");
     expect(restored.windowMaximized).toBe(false);
   });
 
-  it("closes the window back to a normal state", () => {
-    const maximized = appLayoutReducer(undefined, toggleWindowMaximized());
+  it("closes the window and stops the running indicator", () => {
+    const running = appLayoutReducer(undefined, openWindow("welcome"));
+    const maximized = appLayoutReducer(running, toggleWindowMaximized());
     const closed = appLayoutReducer(maximized, closeWindow());
 
+    expect(closed.runningExperimentId).toBeNull();
     expect(closed.windowMaximized).toBe(false);
-    expect(closed.windowMinimized).toBe(false);
   });
 });
