@@ -19,8 +19,10 @@ test("shell home opens experiments from the dock and window controls work", asyn
   const dockLink = dock.getByRole("link", { name: "Welcome Lab" });
   const dockIcon = dockLink.locator("[data-dock-icon]");
   const baseIconWidth = (await dockIcon.boundingBox())?.width ?? 0;
+  const dockBox = await dock.boundingBox();
 
-  await dock.getByRole("link", { name: "Welcome Lab" }).hover();
+  expect(dockBox).not.toBeNull();
+  await page.mouse.move((dockBox?.x ?? 0) + (dockBox?.width ?? 0) / 2, (dockBox?.y ?? 0) - 28);
   await expect
     .poll(async () =>
       page.getByRole("navigation", { name: "Experiment dock" }).evaluate((element) => {
@@ -32,6 +34,8 @@ test("shell home opens experiments from the dock and window controls work", asyn
   await expect
     .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)
     .toBeGreaterThan(baseIconWidth + 20);
+
+  await dock.getByRole("link", { name: "Welcome Lab" }).hover();
   await expect
     .poll(async () =>
       dockLink.evaluate((element) => {
@@ -50,7 +54,7 @@ test("shell home opens experiments from the dock and window controls work", asyn
     )
     .toBe(true);
 
-  await page.getByRole("link", { name: "Welcome Lab" }).click();
+  await dock.getByRole("link", { name: "Welcome Lab" }).click();
   await expect(page).toHaveURL(/\/experiments\/welcome$/);
   await expect(page.getByRole("heading", { name: "Welcome Lab" })).toBeVisible();
   const windowBox = await page.locator(".liquid-window").boundingBox();

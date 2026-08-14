@@ -35,7 +35,7 @@
 - Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
 - Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。
 - Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
-- Dock magnification 采用鼠标距离驱动的 spring interpolation：每个 item 根据指针到 icon 中心的水平距离计算尺寸，距离区间和比例参考 `PuruVJ/macos-web` 的 Dock demo（`base * 6`、`1 / 1.1 / 1.618 / 2.618 / 1.618 / 1.1 / 1`），并让 Dock 底座跟随内容展开。
+- Dock magnification 采用鼠标距离驱动的 spring interpolation：底部应有透明接近感应区，鼠标进入 Dock 上方接近区域时就开始计算，而不是必须 hover 到 Dock 或 app icon 才触发。每个 item 根据指针到 icon 中心的水平距离计算尺寸，距离区间和比例参考 `PuruVJ/macos-web` 的 Dock demo（`base * 6`、`1 / 1.1 / 1.618 / 2.618 / 1.618 / 1.1 / 1`），并让 Dock 底座跟随内容展开。
 - Dock magnification 必须遵守 `prefers-reduced-motion`，用户降低动态效果时取消放大和位移。
 - Dock magnification 的尺寸动画只允许出现在 Dock 这种少量 item、明确服务空间关系的交互中；其他高频 UI 仍优先 `transform` 和 `opacity`。
 - Dock 的尺寸和圆角是 Web 近似值，不记录为 Apple 官方固定 token；后续调整应优先保持比例、材质层级和交互语义一致。

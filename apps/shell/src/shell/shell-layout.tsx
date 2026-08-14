@@ -371,25 +371,29 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
   }, [resetDockMotion]);
 
   return (
-    <nav
-      aria-label="Experiment dock"
-      className="mac-dock fixed inset-x-3 bottom-2 z-30 mx-auto flex max-w-fit items-center gap-1.5 sm:bottom-3"
-      ref={dockRef}
+    <div
+      className="fixed inset-x-0 bottom-0 z-30 flex h-36 items-end justify-center px-3 pb-2 sm:pb-3"
       onPointerCancel={handleDockPointerLeave}
       onPointerLeave={handleDockPointerLeave}
       onPointerMove={handleDockPointerMove}
     >
-      {experiments.map((experiment) => (
-        <DockLink
-          active={runningExperimentId === experiment.id}
-          key={experiment.id}
-          id={experiment.id}
-          label={experiment.title}
-          to={experiment.path}
-          onNavigate={onDockNavigate}
-        />
-      ))}
-    </nav>
+      <nav
+        aria-label="Experiment dock"
+        className="mac-dock mx-auto flex max-w-fit items-center gap-1.5"
+        ref={dockRef}
+      >
+        {experiments.map((experiment) => (
+          <DockLink
+            active={runningExperimentId === experiment.id}
+            key={experiment.id}
+            id={experiment.id}
+            label={experiment.title}
+            to={experiment.path}
+            onNavigate={onDockNavigate}
+          />
+        ))}
+      </nav>
+    </div>
   );
 }
 
