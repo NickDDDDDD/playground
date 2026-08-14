@@ -66,7 +66,7 @@ Design direction -> UI implementation -> visual audit -> browser review -> itera
 - 检查 typography hierarchy、font size、font weight、line height、spacing rhythm、readability、alignment 和 information hierarchy。
 - 在实现后作为独立审计步骤使用。
 
-### Product Structure
+### Product Design
 
 仅在以下场景使用 `product-design`：
 

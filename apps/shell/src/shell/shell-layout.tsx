@@ -12,24 +12,24 @@ export function ShellLayout() {
   );
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background max-md:flex-col">
       <aside
         aria-label="Experiment navigation"
         className={cn(
-          "flex shrink-0 flex-col border-r border-border bg-card transition-[width] duration-200",
-          sidebarCollapsed ? "w-16" : "w-72"
+          "flex shrink-0 flex-col border-r border-border bg-card transition-[width] duration-200 max-md:w-full max-md:border-b max-md:border-r-0",
+          sidebarCollapsed ? "md:w-16" : "md:w-72"
         )}
       >
         <div
           className={cn(
             "flex h-14 items-center border-b border-border p-2",
-            sidebarCollapsed ? "justify-center" : "justify-between"
+            sidebarCollapsed ? "justify-center max-md:justify-between" : "justify-between"
           )}
         >
           <Link
             className={cn(
               "flex h-10 min-w-0 items-center gap-3 rounded-md px-3 transition-colors hover:bg-accent hover:text-accent-foreground",
-              sidebarCollapsed && "hidden"
+              sidebarCollapsed && "max-md:flex md:hidden"
             )}
             to="/"
           >
@@ -49,7 +49,7 @@ export function ShellLayout() {
           </Button>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1 p-2">
+        <nav className="flex flex-1 flex-col gap-1 p-2 max-md:flex-row max-md:overflow-x-auto">
           {experiments.map((experiment) => (
             <SidebarLink
               key={experiment.id}
@@ -82,8 +82,9 @@ function SidebarLink({ collapsed, icon, label, to }: SidebarLinkProps) {
       className={({ isActive }) =>
         cn(
           "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+          "max-md:h-11",
           isActive && "bg-secondary text-foreground",
-          collapsed && "justify-center px-0"
+          collapsed && "justify-center px-0 max-md:px-3"
         )
       }
       title={collapsed ? label : undefined}

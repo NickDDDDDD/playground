@@ -43,9 +43,9 @@
 - 新增会产出 Tailwind classes 的 workspace 根目录时，必须同步更新 `@source`。
 - UI 修复要用浏览器验证，不只依赖编译通过。
 
-## 设计与文档 Skill 工作流
+## SDD Skill 工作流
 
-当用户要求优化 UI、重设计页面、polish 组件、改善 UX、让页面更好看，或类似表达时，遵循 `Design direction -> UI implementation -> visual audit -> browser review -> iterative improvement`。
+按任务性质自然触发对应 skill；详细分工见 `specs/architecture/skill-workflow.md`。当用户要求优化 UI、重设计页面、polish 组件、改善 UX、让页面更好看，或类似表达时，遵循 `Design direction -> UI implementation -> visual audit -> browser review -> iterative improvement`。
 
 - `design-taste-frontend`：负责视觉方向和 taste 判断。用于确定页面应该如何避免 generic AI UI，例如视觉层级、密度、间距、字体、颜色、构图、动效克制程度。
 - `ui-design`：负责把视觉方向落到当前技术栈内的真实组件、CSS、响应式布局和交互状态。优先复用 `@playground/ui`、Tailwind v4 token 和已有组件模式。

@@ -9,6 +9,7 @@
 - `specs/architecture/*`：记录跨实验、长期有效的架构和流程约定。
 - `specs/architecture/animation.md`：记录 GSAP、CSS transition、reduced motion 和动画复用边界。
 - `specs/architecture/skill-workflow.md`：记录 SDD 开发中的 skill 分工、自然触发规则和验证流程。
+- `specs/audits/*`：记录阶段性 SDD 基线巡检、发现的问题、修复结果和剩余风险。
 - `specs/experiments/*`：记录单个实验的目标、体验、技术说明和验收标准。
 - `docs/adr/*`：记录会影响后续开发的架构决策，以及选择它的原因和影响。
 

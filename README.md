@@ -15,17 +15,21 @@ A spec-driven React playground for exploring new frontend technologies.
 ```bash
 pnpm install
 pnpm dev
+pnpm create:experiment my-experiment
 pnpm --filter @playground/experiment-welcome dev
 cd experiments/welcome && pnpm dev
+pnpm lint
 pnpm typecheck
-pnpm build
 pnpm test
+pnpm build
 pnpm test:e2e
 ```
 
 ## Development Flow
 
-1. Write or update a spec under `specs/`.
-2. Add an ADR under `docs/adr/` for architectural decisions.
-3. Implement against the spec.
-4. Verify typecheck and build.
+1. Read the relevant spec under `specs/` before changing code.
+2. Write or update the spec first when behavior or constraints change.
+3. Add an ADR under `docs/adr/` for architectural decisions.
+4. Implement against the spec and current skill workflow.
+5. Verify with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`.
+6. Use Playwright or browser verification for UI layout and user-level flows.

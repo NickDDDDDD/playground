@@ -29,10 +29,10 @@ export function WelcomePage() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col gap-2">
-              <code className="rounded-md bg-muted px-2 py-1 text-xs">
+              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs">
                 pnpm --filter @playground/experiment-welcome dev
               </code>
-              <code className="rounded-md bg-muted px-2 py-1 text-xs">
+              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs">
                 cd experiments/welcome && pnpm dev
               </code>
             </div>
