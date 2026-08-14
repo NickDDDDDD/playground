@@ -32,6 +32,10 @@ Reading this as: Mac-like playground desktop for a technical owner, with a stron
 - 删除 Dock 中的 Overview item。
 - Overview 卡片直接铺在桌面 wallpaper 上。
 - Dock 改为更接近 macOS 的半透明 shelf、app icon、hover magnification 和运行指示点。
+- Dock 的第二轮精修将 padding、圆角、blur、底部阴影、图标 squircle 和图标高光收敛进 `mac-dock` / `mac-dock-icon` / `mac-dock-running-dot`，避免 JSX 中散落视觉 token。
+- Dock 运行指示点改为绝对定位，不参与 Dock item 的 flex 高度，避免 app icon 在底座里视觉偏上。
+- Dock 底座和 app icon 尺寸下调一档，让单实验状态更接近 macOS Dock 的紧凑比例。
+- Dock 近似 macOS 的可调比例和材质心智，不记录为 Apple 官方固定尺寸。
 - 移动端 Dock 保持底部图标启动器，不展示常驻文字标签。
 
 ## 保持不变

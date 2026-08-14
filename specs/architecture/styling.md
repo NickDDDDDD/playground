@@ -27,6 +27,9 @@
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
+- Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
+- Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
+- Dock 的尺寸和圆角是 Web 近似值，不记录为 Apple 官方固定 token；后续调整应优先保持比例、材质层级和交互语义一致。
 - 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
 - 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
@@ -40,6 +43,7 @@
 - `liquid-window`：窗口级半径规则。
 - `mac-dock`：macOS Dock 近似底座。
 - `mac-dock-icon`：Dock app icon 近似外观。
+- `mac-dock-running-dot`：Dock 运行状态指示点。
 - `liquid-card`：内容卡片级 glass surface。
 
 这些 class 必须包含 reduced-transparency 和 high-contrast fallback。业务组件不应该散落重复的 glass CSS。

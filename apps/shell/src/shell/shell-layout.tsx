@@ -123,7 +123,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
   return (
     <nav
       aria-label="Experiment dock"
-      className="mac-dock fixed inset-x-3 bottom-3 z-30 mx-auto flex max-w-fit items-end gap-2 px-2.5 py-2 sm:bottom-4 sm:gap-3 sm:px-3"
+      className="mac-dock fixed inset-x-3 bottom-2 z-30 mx-auto flex max-w-fit items-center gap-1.5 sm:bottom-3"
     >
       {experiments.map((experiment) => (
         <DockLink
@@ -153,7 +153,7 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       aria-label={label}
       className={({ isActive }) =>
         cn(
-          "group/dock relative flex flex-col items-center rounded-[20px] p-1 transition-transform duration-150 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "group/dock relative flex items-center justify-center rounded-[18px] p-0.5 transition-transform duration-150 hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           isActive && "dock-active"
         )
       }
@@ -161,10 +161,10 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       to={to}
       onClick={() => onNavigate(id)}
     >
-      <span className="mac-dock-icon flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255_/_0.3),0_10px_24px_rgb(15_23_42_/_0.24)] transition-transform duration-150 group-hover/dock:scale-110 sm:size-16 sm:rounded-[20px] [&_svg]:size-7">
+      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 group-hover/dock:scale-[1.12] sm:size-14 [&_svg]:size-6">
         <FlaskConical />
       </span>
-      <span className="mt-1 size-1.5 rounded-full bg-foreground/70 opacity-0 transition-opacity data-[active=true]:opacity-100" data-active={active} />
+      <span className="mac-dock-running-dot opacity-0 transition-opacity data-[active=true]:opacity-100" data-active={active} />
     </NavLink>
   );
 }
