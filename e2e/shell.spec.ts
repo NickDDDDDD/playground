@@ -16,6 +16,10 @@ test("shell home opens experiments from the dock and window controls work", asyn
   await expect(page.getByRole("link", { name: "Welcome Lab" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Overview" })).toHaveCount(0);
 
+  const dockLink = dock.getByRole("link", { name: "Welcome Lab" });
+  const dockIcon = dockLink.locator("[data-dock-icon]");
+  const baseIconWidth = (await dockIcon.boundingBox())?.width ?? 0;
+
   await dock.getByRole("link", { name: "Welcome Lab" }).hover();
   await expect
     .poll(async () =>
@@ -24,6 +28,27 @@ test("shell home opens experiments from the dock and window controls work", asyn
       })
     )
     .not.toBe("none");
+
+  await expect
+    .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)
+    .toBeGreaterThan(baseIconWidth + 20);
+  await expect
+    .poll(async () =>
+      dockLink.evaluate((element) => {
+        const tooltip = element.querySelector<HTMLElement>(".mac-dock-tooltip");
+        const icon = element.querySelector<HTMLElement>("[data-dock-icon]");
+
+        if (!tooltip || !icon) {
+          return false;
+        }
+
+        const tooltipBox = tooltip.getBoundingClientRect();
+        const iconBox = icon.getBoundingClientRect();
+
+        return tooltipBox.bottom < iconBox.top;
+      })
+    )
+    .toBe(true);
 
   await page.getByRole("link", { name: "Welcome Lab" }).click();
   await expect(page).toHaveURL(/\/experiments\/welcome$/);

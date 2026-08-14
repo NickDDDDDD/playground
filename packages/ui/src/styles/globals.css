@@ -240,7 +240,7 @@
 
   .mac-dock-tooltip {
     position: absolute;
-    bottom: calc(100% + 9px);
+    bottom: calc(100% + var(--dock-tooltip-offset, 9px));
     left: 50%;
     z-index: 2;
     max-width: 12rem;
@@ -454,29 +454,13 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .mac-dock:hover,
-    .mac-dock:focus-within {
+    .mac-dock[data-magnifying] {
       transform: translateY(-3px) scale(1.055);
     }
 
     .desktop-widget-motion:hover,
     .desktop-widget-motion:focus-visible {
       transform: translateY(-2px);
-    }
-
-    .mac-dock-link:hover,
-    .mac-dock-link:focus-visible {
-      transform: translateY(-10px);
-    }
-
-    .mac-dock-link:hover .mac-dock-icon,
-    .mac-dock-link:focus-visible .mac-dock-icon {
-      transform: scale(1.28);
-    }
-
-    .mac-dock-link:hover + .mac-dock-link .mac-dock-icon,
-    .mac-dock-link:has(+ .mac-dock-link:hover) .mac-dock-icon {
-      transform: scale(1.14);
     }
 
     .mac-dock-link:hover .mac-dock-tooltip,
@@ -530,14 +514,7 @@
     .desktop-widget-motion:hover,
     .desktop-widget-motion:focus-visible,
     .sleep-screen[data-state="exiting"],
-    .mac-dock:hover,
-    .mac-dock:focus-within,
-    .mac-dock-link:hover,
-    .mac-dock-link:focus-visible,
-    .mac-dock-link:hover .mac-dock-icon,
-    .mac-dock-link:focus-visible .mac-dock-icon,
-    .mac-dock-link:hover + .mac-dock-link .mac-dock-icon,
-    .mac-dock-link:has(+ .mac-dock-link:hover) .mac-dock-icon {
+    .mac-dock[data-magnifying] {
       transform: none;
     }
   }

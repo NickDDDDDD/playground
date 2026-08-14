@@ -1,7 +1,7 @@
 import { cn } from "@playground/ui";
 import { Clipboard, FlaskConical, Moon, Play, TerminalSquare } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import type { MouseEvent, PointerEvent as ReactPointerEvent } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { experiments } from "../experiments";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -13,6 +13,13 @@ import {
   toggleWindowMaximized,
   wakePlayground
 } from "../store/slices/app-layout-slice";
+import {
+  createDockSpringState,
+  getDockMotionTarget,
+  isDockSpringSettled,
+  stepDockSpring,
+  type DockSpringState
+} from "./dock-magnification";
 
 export function ShellLayout() {
   const dispatch = useAppDispatch();
@@ -232,10 +239,145 @@ type ExperimentDockProps = {
 };
 
 function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockProps) {
+  const dockRef = useRef<HTMLElement>(null);
+  const dockItemStatesRef = useRef(new Map<HTMLElement, DockSpringState>());
+  const dockFrameRef = useRef<number | null>(null);
+  const animateDockRef = useRef<() => void>(() => undefined);
+  const dockPointerXRef = useRef<number | null>(null);
+  const dockMotionEnabledRef = useRef(false);
+
+  const resetDockMotion = useCallback(() => {
+    dockPointerXRef.current = null;
+
+    if (dockFrameRef.current !== null) {
+      window.cancelAnimationFrame(dockFrameRef.current);
+      dockFrameRef.current = null;
+    }
+
+    dockRef.current?.removeAttribute("data-magnifying");
+    dockItemStatesRef.current.clear();
+    dockRef.current?.querySelectorAll<HTMLElement>("[data-dock-icon]").forEach((icon) => {
+      icon.closest<HTMLElement>("[data-dock-item]")?.style.removeProperty("--dock-tooltip-offset");
+      icon.style.removeProperty("height");
+      icon.style.removeProperty("transform");
+      icon.style.removeProperty("width");
+      icon.style.removeProperty("will-change");
+      delete icon.dataset.dockBaseSize;
+    });
+  }, []);
+
+  const animateDock = useCallback(() => {
+    const dock = dockRef.current;
+
+    dockFrameRef.current = null;
+
+    if (!dock || !dockMotionEnabledRef.current) {
+      resetDockMotion();
+      return;
+    }
+
+    const icons = Array.from(dock.querySelectorAll<HTMLElement>("[data-dock-icon]"));
+    const pointerX = dockPointerXRef.current;
+    let allSettled = true;
+
+    dock.toggleAttribute("data-magnifying", pointerX !== null);
+
+    icons.forEach((icon) => {
+      const baseSize = Number(icon.dataset.dockBaseSize) || icon.offsetWidth;
+      icon.dataset.dockBaseSize = String(baseSize);
+
+      const rect = icon.getBoundingClientRect();
+      const distance = pointerX === null ? null : pointerX - (rect.left + rect.width / 2);
+      const target = getDockMotionTarget(distance, baseSize);
+      const currentState = dockItemStatesRef.current.get(icon) ?? createDockSpringState(baseSize);
+      const nextState = stepDockSpring(currentState, target);
+      const tooltipOffset = Math.max(
+        9,
+        -nextState.lift + (nextState.size - baseSize) + 12
+      );
+
+      dockItemStatesRef.current.set(icon, nextState);
+      icon
+        .closest<HTMLElement>("[data-dock-item]")
+        ?.style.setProperty("--dock-tooltip-offset", `${tooltipOffset.toFixed(2)}px`);
+      icon.style.width = `${nextState.size.toFixed(2)}px`;
+      icon.style.height = `${nextState.size.toFixed(2)}px`;
+      icon.style.transform = `translateY(${nextState.lift.toFixed(2)}px)`;
+      icon.style.willChange = "width, height, transform";
+
+      if (!isDockSpringSettled(nextState, target)) {
+        allSettled = false;
+      }
+    });
+
+    if (!allSettled) {
+      dockFrameRef.current = window.requestAnimationFrame(() => animateDockRef.current());
+      return;
+    }
+
+    icons.forEach((icon) => icon.style.removeProperty("will-change"));
+
+    if (pointerX === null) {
+      resetDockMotion();
+    }
+  }, [resetDockMotion]);
+
+  useEffect(() => {
+    animateDockRef.current = animateDock;
+  }, [animateDock]);
+
+  const startDockAnimation = useCallback(() => {
+    if (dockFrameRef.current === null) {
+      dockFrameRef.current = window.requestAnimationFrame(() => animateDockRef.current());
+    }
+  }, []);
+
+  const handleDockPointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLElement>) => {
+      if (!dockMotionEnabledRef.current) {
+        return;
+      }
+
+      dockPointerXRef.current = event.clientX;
+      startDockAnimation();
+    },
+    [startDockAnimation]
+  );
+
+  const handleDockPointerLeave = useCallback(() => {
+    dockPointerXRef.current = null;
+    startDockAnimation();
+  }, [startDockAnimation]);
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+    );
+    const syncMotionPreference = () => {
+      dockMotionEnabledRef.current = motionQuery.matches;
+
+      if (!motionQuery.matches) {
+        resetDockMotion();
+      }
+    };
+
+    syncMotionPreference();
+    motionQuery.addEventListener("change", syncMotionPreference);
+
+    return () => {
+      motionQuery.removeEventListener("change", syncMotionPreference);
+      resetDockMotion();
+    };
+  }, [resetDockMotion]);
+
   return (
     <nav
       aria-label="Experiment dock"
       className="mac-dock fixed inset-x-3 bottom-2 z-30 mx-auto flex max-w-fit items-center gap-1.5 sm:bottom-3"
+      ref={dockRef}
+      onPointerCancel={handleDockPointerLeave}
+      onPointerLeave={handleDockPointerLeave}
+      onPointerMove={handleDockPointerMove}
     >
       {experiments.map((experiment) => (
         <DockLink
@@ -271,12 +413,16 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       }
       title={label}
       to={to}
+      data-dock-item
       onClick={() => onNavigate(id)}
     >
       <span className="mac-dock-tooltip" aria-hidden="true">
         {label}
       </span>
-      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 sm:size-14">
+      <span
+        className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground sm:size-14"
+        data-dock-icon
+      >
         <FlaskConical aria-hidden="true" className="mac-dock-icon-glyph" strokeWidth={2.35} />
       </span>
       <span
