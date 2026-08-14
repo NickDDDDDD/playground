@@ -1,8 +1,8 @@
-# UI 设计工作流规格
+# SDD Skill 工作流规格
 
 ## 目标
 
-为当前 React playground 建立稳定的前端 UI、文案、文档和计划工作流，让修改从方向判断、实现、审计到浏览器验证都有明确分工。
+为当前 React playground 建立稳定的 SDD skill 调度规则，让前端 UI、动效、文案、文档、README、计划和 agent 指令修改都有明确分工，并能在开发过程中按任务性质自然触发。
 
 标准流程：
 
@@ -25,7 +25,7 @@ Design direction -> UI implementation -> visual audit -> browser review -> itera
 
 这些 skills 通过 `npx skills list -g --agent codex --json` 验证为 Codex 全局 skills。
 
-## 当前项目 UI 技术栈
+## 当前项目技术栈
 
 - Framework：React + TypeScript + Vite。
 - Styling：Tailwind CSS v4，集中在 `@playground/ui/styles.css` 中维护 `@source` 和主题 token。
