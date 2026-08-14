@@ -1,15 +1,27 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@playground/ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  useGsapReveal
+} from "@playground/ui";
 import { ArrowRight, Boxes, Route, Server } from "lucide-react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { experiments } from "../experiments";
 import { useGetPlaygroundStatusQuery } from "../store/services/playground-api";
 
 export function HomePage() {
+  const pageRef = useRef<HTMLElement>(null);
   const { data } = useGetPlaygroundStatusQuery();
 
+  useGsapReveal(pageRef);
+
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8">
-      <div className="flex flex-col gap-2">
+    <section className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8" ref={pageRef}>
+      <div className="flex flex-col gap-2" data-gsap-reveal>
         <p className="text-sm font-medium text-primary">Spec-driven technology lab</p>
         <h1 className="text-3xl font-semibold tracking-normal">Explore, isolate, and learn.</h1>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
@@ -18,7 +30,7 @@ export function HomePage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3" data-gsap-reveal>
         <FeatureCard icon={<Boxes />} title="Monorepo">
           Apps, shared packages, and experiments stay separate without drifting apart.
         </FeatureCard>
@@ -30,7 +42,7 @@ export function HomePage() {
         </FeatureCard>
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3" data-gsap-reveal>
         {experiments.map((experiment) => (
           <Card key={experiment.id}>
             <CardHeader>
@@ -59,7 +71,7 @@ export function HomePage() {
         ))}
       </div>
 
-      <p className="text-xs text-muted-foreground">
+      <p className="text-xs text-muted-foreground" data-gsap-reveal>
         API layer: {data?.status ?? "loading"} via {data?.source ?? "rtk-query"}
       </p>
     </section>

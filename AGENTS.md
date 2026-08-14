@@ -64,6 +64,8 @@
 
 `ui-audit`、`ux-audit`、`plan-creator`、`plan-reviewer` 当前不是已安装 skill 名称：UI audit 归 `ui-design` Audit mode，UX/flow review 归 `product-design`，计划创建和计划审计都归 `planning`。
 
+GSAP 只用于 timeline、stagger、scroll-driven、复杂 enter/leave、SVG 或交互编排；button hover、简单 opacity/color/transform transition、focus state 继续优先使用 CSS。React 组件中不要散落 `gsap.to()`，优先复用 `@playground/ui` 暴露的动画 hook 和 preset；新增 GSAP 插件必须按需注册并记录到 spec。
+
 ## 验证命令
 
 常规改动完成后至少运行：

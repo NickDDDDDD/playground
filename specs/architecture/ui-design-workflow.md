@@ -88,6 +88,7 @@ Design direction -> UI implementation -> visual audit -> browser review -> itera
 - 当动效本身是任务主题时使用，例如“更顺滑”“加动画”“匹配这个 easing”“增加 swipe gesture”。
 - 普通组件 hover、focus、pressed 的轻量反馈仍可由 `ui-design` 在实现中处理。
 - 如果 gesture 改变了用户能做什么，例如 swipe-to-delete 或 hold-to-confirm，先由 `product-design` 决定交互语义，再由 `ui-animation` 实现动效。
+- 当前项目使用 GSAP 作为复杂动画实现基础；具体使用边界见 `specs/architecture/animation.md`。
 
 ### Copywriting
 
