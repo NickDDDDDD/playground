@@ -1,19 +1,19 @@
-# ADR 0003: Use Redux Toolkit and RTK Query
+# ADR 0003: 使用 Redux Toolkit 和 RTK Query
 
-## Status
+## 状态
 
-Accepted
+已接受
 
-## Decision
+## 决策
 
-Use Redux Toolkit for client application state and RTK Query for server state.
+使用 Redux Toolkit 管理客户端应用状态，使用 RTK Query 管理服务端状态。
 
-## Reason
+## 原因
 
-The project is also a learning playground, and Redux Toolkit is worth practicing as a modern state-management baseline.
+这个项目也是学习 playground。Redux Toolkit 作为现代 Redux 的默认实践，值得作为状态管理基线来熟悉。
 
-## Consequences
+## 影响
 
-- Client UI state is modeled with `createSlice`.
-- Server data is modeled with `createApi`.
-- Axios is not introduced by default; RTK Query starts with `fetchBaseQuery`.
+- 客户端 UI 状态使用 `createSlice` 建模。
+- 服务端数据使用 `createApi` 建模。
+- 默认不引入 Axios；RTK Query 先使用 `fetchBaseQuery`。

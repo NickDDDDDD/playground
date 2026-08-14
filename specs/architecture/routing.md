@@ -1,17 +1,17 @@
-# Routing Spec
+# 路由规格
 
-## Goal
+## 目标
 
-Use React Router to mount experiments inside a shared shell while preserving standalone experiment routes.
+使用 React Router 将实验项目挂载到共享 shell 中，同时保留实验项目独立运行时的路由能力。
 
-## Behavior
+## 行为
 
-- The shell owns the app layout and top-level routes.
-- Experiments expose route metadata through `ExperimentModule`.
-- Unknown routes render a not-found view.
+- shell 拥有应用布局和顶层路由。
+- 实验项目通过 `ExperimentModule` 暴露路由元数据。
+- 未匹配的路由渲染 not-found 页面。
 
-## Acceptance Criteria
+## 验收标准
 
-- `/` opens the shell home page.
-- `/experiments/welcome` mounts the welcome experiment.
-- The welcome experiment can also run independently.
+- `/` 打开 shell 首页。
+- `/experiments/welcome` 挂载 welcome 实验。
+- welcome 实验也可以独立运行。

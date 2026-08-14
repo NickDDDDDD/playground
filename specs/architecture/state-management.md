@@ -1,17 +1,17 @@
-# State Management Spec
+# 状态管理规格
 
-## Goal
+## 目标
 
-Use Redux Toolkit and RTK Query as the default state-management learning path.
+使用 Redux Toolkit 和 RTK Query 作为默认状态管理学习路径。
 
-## State Boundaries
+## 状态边界
 
-- `createSlice` owns client state such as sidebar collapse and theme preference.
-- `createApi` owns remote/server state such as example API data.
-- Experiments may define local stores when their learning goal requires isolation.
+- `createSlice` 负责客户端状态，例如 sidebar 折叠状态、主题偏好等。
+- `createApi` 负责远程/服务端状态，例如接口数据、缓存、loading 和 error。
+- 当实验目标需要隔离时，实验项目可以定义自己的本地 store。
 
-## Acceptance Criteria
+## 验收标准
 
-- The shell is wrapped in a Redux Provider.
-- Sidebar collapsed state is stored in Redux.
-- RTK Query is configured in the shell store.
+- shell 根部包裹 Redux Provider。
+- sidebar 折叠状态存储在 Redux 中。
+- RTK Query 已接入 shell store。

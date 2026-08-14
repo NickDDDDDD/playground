@@ -1,19 +1,19 @@
-# ADR 0001: Use pnpm Workspace Monorepo
+# ADR 0001: 使用 pnpm Workspace Monorepo
 
-## Status
+## 状态
 
-Accepted
+已接受
 
-## Decision
+## 决策
 
-Use pnpm workspaces with `apps/*`, `packages/*`, and `experiments/*`.
+使用 pnpm workspaces，并划分为 `apps/*`、`packages/*` 和 `experiments/*`。
 
-## Reason
+## 原因
 
-The project is a playground where each exploration should be isolated but still share infrastructure, UI, and conventions.
+这个项目是技术探索 playground。每个探索项目需要保持隔离，同时复用基础设施、UI 和约定。
 
-## Consequences
+## 影响
 
-- Shared code lives in `packages/*`.
-- The main shell lives in `apps/shell`.
-- Each exploration lives in `experiments/*`.
+- 共享代码放在 `packages/*`。
+- 主 shell 放在 `apps/shell`。
+- 每个探索项目放在 `experiments/*`。

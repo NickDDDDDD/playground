@@ -1,19 +1,19 @@
-# ADR 0002: Use React Router
+# ADR 0002: 使用 React Router
 
-## Status
+## 状态
 
-Accepted
+已接受
 
-## Decision
+## 决策
 
-Use React Router for the shell and standalone experiment apps.
+shell 和独立实验 app 都使用 React Router。
 
-## Reason
+## 原因
 
-React Router is familiar, stable, and simple enough for a playground shell while still supporting nested routes and standalone experiment entrypoints.
+React Router 熟悉、稳定，对 playground shell 足够简单，同时也支持嵌套路由和独立实验入口。
 
-## Consequences
+## 影响
 
-- The shell owns the top-level router.
-- Experiments export route metadata and a render component.
-- Standalone experiment apps create their own router.
+- shell 拥有顶层 router。
+- 实验项目导出路由元数据和渲染组件。
+- 独立实验 app 创建自己的 router。

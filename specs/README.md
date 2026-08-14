@@ -1,10 +1,14 @@
-# Specs
+# 规格文档
 
-This project uses spec-driven development.
+本项目采用 SDD（Spec-Driven Development，规格驱动开发）。
 
-Before implementing a meaningful feature or experiment:
+在实现一个有意义的功能或实验之前：
 
-1. Capture intent, constraints, and acceptance criteria in a spec.
-2. Record architectural choices as ADRs when they affect future work.
-3. Implement only what the spec needs.
-4. Keep the spec updated when behavior changes.
+1. 在 spec 中记录目标、约束和验收标准。
+2. 当架构选择会影响后续开发时，使用 ADR 记录决策。
+3. 实现只围绕 spec 收敛，不顺手扩大范围。
+4. 当行为发生变化时，同步更新 spec。
+
+## 文档语言
+
+SDD 相关文档默认使用中文编写，方便长期阅读和复盘。技术名词、包名、命令、API 名称保持英文原文。

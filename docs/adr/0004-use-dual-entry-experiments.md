@@ -1,19 +1,19 @@
-# ADR 0004: Use Dual-Entry Experiments
+# ADR 0004: 使用双入口实验项目
 
-## Status
+## 状态
 
-Accepted
+已接受
 
-## Decision
+## 决策
 
-Each experiment package must be mountable by the shell and independently runnable with Vite.
+每个实验包都必须既可以被 shell 挂载，也可以通过 Vite 独立运行。
 
-## Reason
+## 原因
 
-This keeps the shell experience unified while allowing experiments to stay isolated during focused exploration.
+这样既能保持 shell 体验统一，又允许实验项目在专注探索时保持隔离。
 
-## Consequences
+## 影响
 
-- Each experiment exports an `ExperimentModule`.
-- Each experiment owns a standalone `main.tsx`.
-- Experiments can have local state and providers when running standalone.
+- 每个实验项目导出 `ExperimentModule`。
+- 每个实验项目拥有独立的 `main.tsx`。
+- 实验项目独立运行时可以拥有自己的本地状态和 providers。

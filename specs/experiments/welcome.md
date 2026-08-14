@@ -1,21 +1,21 @@
-# Welcome Experiment Spec
+# Welcome 实验规格
 
-## Goal
+## 目标
 
-Provide a first experiment that proves the monorepo, shell routing, shared UI, Redux Toolkit, and standalone experiment model work.
+提供第一个实验，用来证明 monorepo、shell 路由、共享 UI、Redux Toolkit 和独立实验入口都可以正常工作。
 
-## User Experience
+## 用户体验
 
-The page introduces the playground architecture and includes a small local counter interaction.
+页面介绍 playground 架构，并包含一个小型本地 counter 交互。
 
-## Technical Notes
+## 技术说明
 
-- Export an `ExperimentModule` for shell mounting.
-- Provide a standalone Vite entrypoint.
-- Use shared UI components.
+- 导出 `ExperimentModule`，供 shell 挂载。
+- 提供独立的 Vite entrypoint。
+- 使用共享 UI 组件。
 
-## Acceptance Criteria
+## 验收标准
 
-- `/experiments/welcome` renders inside the shell.
-- `pnpm --filter @playground/experiment-welcome dev` runs the experiment standalone.
-- Typecheck and build pass.
+- `/experiments/welcome` 可以在 shell 中渲染。
+- `pnpm --filter @playground/experiment-welcome dev` 可以独立启动实验。
+- typecheck 和 build 通过。

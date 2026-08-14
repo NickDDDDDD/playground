@@ -1,20 +1,20 @@
-# Experiment Spec Template
+# 实验规格模板
 
-## Goal
+## 目标
 
-Describe what technology or idea this experiment explores.
+描述这个实验要探索的技术或想法。
 
-## User Experience
+## 用户体验
 
-Describe the primary screen and interactions.
+描述主界面和核心交互。
 
-## Technical Notes
+## 技术说明
 
-Describe libraries, architecture choices, and constraints.
+描述使用的库、架构选择和约束。
 
-## Acceptance Criteria
+## 验收标准
 
-- The experiment exports an `ExperimentModule`.
-- The experiment runs inside the shell.
-- The experiment runs standalone.
-- Typecheck and build pass.
+- 实验项目导出 `ExperimentModule`。
+- 实验项目可以在 shell 中运行。
+- 实验项目可以独立运行。
+- typecheck 和 build 通过。
