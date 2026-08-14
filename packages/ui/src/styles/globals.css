@@ -333,16 +333,22 @@
     backdrop-filter: blur(22px) saturate(130%);
     -webkit-backdrop-filter: blur(22px) saturate(130%);
     transition:
-      opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 260ms cubic-bezier(0.32, 0.72, 0, 1),
-      filter 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 520ms linear,
+      transform 620ms cubic-bezier(0.2, 0, 0, 1),
+      filter 520ms linear;
+  }
+
+  .sleep-screen[data-state="entering"] {
+    opacity: 0;
+    filter: blur(16px);
+    transform: translateY(7%) scale(0.96);
   }
 
   .sleep-screen[data-state="exiting"] {
     opacity: 0;
-    filter: blur(8px);
+    filter: blur(16px);
     pointer-events: none;
-    transform: translateY(-4.5%);
+    transform: translateY(-8%) scale(0.96);
   }
 
   .sleep-screen-clock {

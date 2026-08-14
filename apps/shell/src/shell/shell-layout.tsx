@@ -22,7 +22,7 @@ export function ShellLayout() {
     (state) => state.appLayout
   );
   const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null);
-  const [sleepState, setSleepState] = useState<"entered" | "exiting">("entered");
+  const [sleepState, setSleepState] = useState<SleepScreenState>("entered");
   const activeExperiment = experiments.find((experiment) =>
     location.pathname.startsWith(experiment.path)
   );
@@ -68,8 +68,16 @@ export function ShellLayout() {
     }
 
     setSleepState("exiting");
-    window.setTimeout(() => dispatch(wakePlayground()), 260);
+    window.setTimeout(() => dispatch(wakePlayground()), 620);
   }, [dispatch, sleeping, sleepState]);
+
+  const enterSleep = useCallback(() => {
+    setSleepState("entering");
+    dispatch(sleepPlayground());
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setSleepState("entered"));
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -176,8 +184,7 @@ export function ShellLayout() {
             closeContextMenu();
           }}
           onSleep={() => {
-            setSleepState("entered");
-            dispatch(sleepPlayground());
+            enterSleep();
             closeContextMenu();
           }}
         />
@@ -359,9 +366,11 @@ function DesktopContextMenu({
 }
 
 type SleepScreenProps = {
-  state: "entered" | "exiting";
+  state: SleepScreenState;
   onWake: () => void;
 };
+
+type SleepScreenState = "entering" | "entered" | "exiting";
 
 function SleepScreen({ state, onWake }: SleepScreenProps) {
   const [now, setNow] = useState(() => new Date());

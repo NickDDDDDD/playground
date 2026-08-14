@@ -83,6 +83,8 @@ test("desktop context menu can enter and leave focus sleep", async ({ page }) =>
   const focusScreen = page.getByRole("dialog", { name: "Focus screen" });
 
   await expect(focusScreen).toBeVisible();
+  await expect(focusScreen).toHaveAttribute("data-state", "entering");
+  await expect(focusScreen).toHaveAttribute("data-state", "entered", { timeout: 1_000 });
   await expect(page.getByRole("button", { name: "Wake Playground" })).toBeVisible();
 
   await page.getByRole("button", { name: "Wake Playground" }).click();
