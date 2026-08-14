@@ -43,7 +43,7 @@
 - 新增会产出 Tailwind classes 的 workspace 根目录时，必须同步更新 `@source`。
 - UI 修复要用浏览器验证，不只依赖编译通过。
 
-## UI 设计 Skill 工作流
+## 设计与文档 Skill 工作流
 
 当用户要求优化 UI、重设计页面、polish 组件、改善 UX、让页面更好看，或类似表达时，遵循 `Design direction -> UI implementation -> visual audit -> browser review -> iterative improvement`。
 
@@ -51,10 +51,18 @@
 - `ui-design`：负责把视觉方向落到当前技术栈内的真实组件、CSS、响应式布局和交互状态。优先复用 `@playground/ui`、Tailwind v4 token 和已有组件模式。
 - `typography-audit`：实现完成后用于检查字体层级、字号、字重、行高、节奏、可读性、对齐和信息密度。
 - `product-design`：只在新增页面、用户流程、信息架构、primary action 或交互结构明显变化时使用；普通视觉 polish 不强制调用。
+- `ui-animation`：只在动效本身是任务主题时使用，例如 easing、spring、gesture、drag、页面/组件过渡；普通 hover transition 仍由 `ui-design` 处理。
+- `copywriting`：负责短产品文案、CTA、空/错/成功状态文案、landing copy 和 AI 味文案清理；技术文档不要交给它。
+- `docs-writing`：负责技术文档和 SDD 文档的写作、审计和结构质量；README 从零重写交给 `readme-creator`。
+- `readme-creator`：只在创建或大幅重写 `README.md` 时使用；普通 README prose polish 用 `docs-writing`。
+- `planning`：覆盖 plan-create 和 plan-review；当用户明确要计划、压力测试计划、拆任务或先讨论方案时使用，不在该模式下直接写代码。
+- `agents-md`：负责审计和重构 `AGENTS.md` / `CLAUDE.md`；不要用通用 docs skill 改 agent 指令文件。
 
 执行 UI 工作时先检查现有页面结构、组件、typography、spacing、colors、layout、responsive behavior 和 interaction states，再决定改动。除非用户明确要求 redesign，不改变业务逻辑、API、数据结构、路由语义和现有用户流程。
 
 当前项目是 React + Vite + TypeScript + Tailwind CSS v4 + shadcn-style 自有 UI package。不要为了套用 skill 示例而迁移技术栈；skill 只提供设计和实现原则。
+
+`ui-audit`、`ux-audit`、`plan-creator`、`plan-reviewer` 当前不是已安装 skill 名称：UI audit 归 `ui-design` Audit mode，UX/flow review 归 `product-design`，计划创建和计划审计都归 `planning`。
 
 ## 验证命令
 
