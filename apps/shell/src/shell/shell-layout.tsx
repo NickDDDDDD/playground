@@ -1,6 +1,6 @@
 import { Button, cn } from "@playground/ui";
-import { ChevronLeft, ChevronRight, FlaskConical, LayoutDashboard } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { ChevronLeft, ChevronRight, FlaskConical } from "lucide-react";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { experiments } from "../experiments";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { toggleSidebar } from "../store/slices/app-layout-slice";
@@ -25,17 +25,18 @@ export function ShellLayout() {
             sidebarCollapsed ? "justify-center" : "justify-between"
           )}
         >
-          <div
+          <Link
             className={cn(
-              "flex h-10 min-w-0 items-center gap-3 rounded-md px-3",
+              "flex h-10 min-w-0 items-center gap-3 rounded-md px-3 transition-colors hover:bg-accent hover:text-accent-foreground",
               sidebarCollapsed && "hidden"
             )}
+            to="/"
           >
             <FlaskConical className="size-4 shrink-0 text-primary" />
             {!sidebarCollapsed && (
               <span className="text-sm font-semibold tracking-normal">Playground</span>
             )}
-          </div>
+          </Link>
           <Button
             aria-label="Toggle sidebar"
             size="icon"
@@ -47,12 +48,6 @@ export function ShellLayout() {
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 p-2">
-          <SidebarLink
-            collapsed={sidebarCollapsed}
-            icon={<LayoutDashboard className="size-4" />}
-            label="Overview"
-            to="/"
-          />
           {experiments.map((experiment) => (
             <SidebarLink
               key={experiment.id}
