@@ -31,10 +31,16 @@
 - Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
 - Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。
 - Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
+- Dock hover magnification 当前采用轻量版：当前 item 用 `transform` 放大并上移，邻近 item 轻微放大；不得动画 `width`、`height`、`top`、`left` 等布局属性。
+- Dock magnification 必须遵守 `prefers-reduced-motion`，用户降低动态效果时取消放大和位移。
+- 以后如果 Dock item 数量足够多，可以参考 `PuruVJ/macos-web` 的鼠标距离驱动 spring interpolation 做完整版 magnification；这需要单独评估可访问性、性能和测试策略。
 - Dock 的尺寸和圆角是 Web 近似值，不记录为 Apple 官方固定 token；后续调整应优先保持比例、材质层级和交互语义一致。
 - 颜色和材质参考 `PuruVJ/macos-web` 这类高星 macOS web desktop 项目的系统感，但不能直接复制其代码或 Apple 版权资产。
 - 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
 - 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
+- 桌面右键菜单属于 shell 层低频操作入口；默认不进入实验包契约。当前菜单可提供打开首个实验、复制当前 URL、复制实验创建命令、进入 Focus / Sleep Screen。
+- Focus / Sleep Screen 是轻量沉浸状态，不是锁屏/登录系统；它不要求密码、不管理账号，也不改变当前路由或实验运行状态。
+- 长期不做窗口拖拽/自由 resize、真实 app icon 图片资产、wallpaper 管理、完整锁屏/登录/启动系统、Finder/系统设置等 OS 级模拟功能。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
 
 ## Material 基础层
@@ -48,6 +54,9 @@
 - `mac-dock-icon`：Dock app icon 近似外观。
 - `mac-dock-icon-glyph`：Dock app icon 的主体符号。
 - `mac-dock-running-dot`：Dock 运行状态指示点。
+- `mac-dock-tooltip`：Dock item tooltip。
+- `mac-context-menu` / `mac-context-menu-item`：桌面右键菜单。
+- `sleep-screen`：Focus / Sleep Screen。
 - `liquid-card`：内容卡片级 glass surface。
 
 这些 class 必须包含 reduced-transparency 和 high-contrast fallback。业务组件不应该散落重复的 glass CSS。
@@ -72,4 +81,6 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - 实验入口出现在底部 Dock，而不是左侧 sidebar。
 - 实验窗口最小化后回到桌面，点击对应 Dock item 可以恢复。
 - 实验窗口最大化后应占满 viewport，并隐藏 Dock。
+- 桌面空白区域右键可以打开菜单，窗口、Dock、按钮和链接区域不应被右键菜单拦截。
+- Focus / Sleep Screen 打开后覆盖桌面，点击 Wake 或按 Escape 可以回到桌面。
 - mobile viewport 不出现由 shell navigation、Dock 或长命令文本造成的页面级横向滚动。

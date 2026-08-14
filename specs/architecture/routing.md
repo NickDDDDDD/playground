@@ -17,6 +17,8 @@
 - 最小化和关闭都会显示桌面 Overview；区别是最小化后 Dock 中对应实验保留运行指示点，关闭后清除运行指示点。
 - 点击当前实验的 Dock item 会恢复最小化窗口。
 - 窗口最大化按钮在普通窗口和全屏窗口之间切换。
+- Focus / Sleep Screen 是 shell 层 overlay 状态，不改变当前路由、不关闭实验，也不清除 Dock 运行指示点。
+- 从 Focus / Sleep Screen 唤醒后应回到进入 sleep 前的 shell 状态。
 - 未匹配的路由渲染 not-found 页面。
 
 ## 验收标准
@@ -28,4 +30,5 @@
 - 实验窗口的关闭、最小化、最大化按钮都能改变真实 UI 状态。
 - 最小化和关闭都会回到桌面，但 Dock 运行指示点必须不同。
 - 最大化窗口必须占满可用 viewport。
+- Focus / Sleep Screen 可以从桌面右键菜单进入，并可以通过 Wake 按钮或 Escape 离开。
 - welcome 实验也可以独立运行。

@@ -4,7 +4,9 @@ import {
   closeWindow,
   minimizeWindow,
   openWindow,
-  toggleWindowMaximized
+  sleepPlayground,
+  toggleWindowMaximized,
+  wakePlayground
 } from "./app-layout-slice";
 
 describe("appLayoutReducer", () => {
@@ -12,6 +14,7 @@ describe("appLayoutReducer", () => {
     const state = appLayoutReducer(undefined, { type: "unknown" });
 
     expect(state.runningExperimentId).toBeNull();
+    expect(state.sleeping).toBe(false);
     expect(state.windowMaximized).toBe(false);
   });
 
@@ -41,5 +44,18 @@ describe("appLayoutReducer", () => {
 
     expect(closed.runningExperimentId).toBeNull();
     expect(closed.windowMaximized).toBe(false);
+  });
+
+  it("enters and leaves focus sleep without closing a running experiment", () => {
+    const running = appLayoutReducer(undefined, openWindow("welcome"));
+    const maximized = appLayoutReducer(running, toggleWindowMaximized());
+    const sleeping = appLayoutReducer(maximized, sleepPlayground());
+    const awake = appLayoutReducer(sleeping, wakePlayground());
+
+    expect(sleeping.runningExperimentId).toBe("welcome");
+    expect(sleeping.sleeping).toBe(true);
+    expect(sleeping.windowMaximized).toBe(false);
+    expect(awake.sleeping).toBe(false);
+    expect(awake.runningExperimentId).toBe("welcome");
   });
 });

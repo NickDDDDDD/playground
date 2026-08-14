@@ -1,5 +1,7 @@
 import { cn } from "@playground/ui";
-import { FlaskConical } from "lucide-react";
+import { Clipboard, FlaskConical, Moon, Play, TerminalSquare } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { experiments } from "../experiments";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -7,21 +9,85 @@ import {
   closeWindow,
   minimizeWindow,
   openWindow,
-  toggleWindowMaximized
+  sleepPlayground,
+  toggleWindowMaximized,
+  wakePlayground
 } from "../store/slices/app-layout-slice";
 
 export function ShellLayout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { runningExperimentId, windowMaximized } = useAppSelector((state) => state.appLayout);
+  const { runningExperimentId, sleeping, windowMaximized } = useAppSelector(
+    (state) => state.appLayout
+  );
+  const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null);
   const activeExperiment = experiments.find((experiment) =>
     location.pathname.startsWith(experiment.path)
   );
   const isOverview = location.pathname === "/";
+  const firstExperiment = experiments[0];
+  const closeContextMenu = useCallback(() => setContextMenuPosition(null), []);
+
+  const openContextMenu = useCallback((x: number, y: number) => {
+    const menuWidth = 260;
+    const menuHeight = 220;
+
+    setContextMenuPosition({
+      x: Math.max(12, Math.min(x, window.innerWidth - menuWidth)),
+      y: Math.max(12, Math.min(y, window.innerHeight - menuHeight))
+    });
+  }, []);
+
+  const handleDesktopContextMenu = useCallback(
+    (event: MouseEvent<HTMLDivElement>) => {
+      if (sleeping) {
+        event.preventDefault();
+        return;
+      }
+
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        target.closest("a, button, .liquid-window, .mac-dock, [role='menu']")
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      openContextMenu(event.clientX, event.clientY);
+    },
+    [openContextMenu, sleeping]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeContextMenu();
+
+        if (sleeping) {
+          dispatch(wakePlayground());
+        }
+      }
+
+      if (event.key === "ContextMenu" || (event.shiftKey && event.key === "F10")) {
+        event.preventDefault();
+        openContextMenu(window.innerWidth / 2 - 120, window.innerHeight / 2 - 80);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [closeContextMenu, dispatch, openContextMenu, sleeping]);
 
   return (
-    <div className="desktop-wallpaper flex min-h-[100dvh] flex-col overflow-hidden px-3 py-3 text-foreground sm:px-5 sm:py-5">
+    <div
+      className="desktop-wallpaper flex min-h-[100dvh] flex-col overflow-hidden px-3 py-3 text-foreground sm:px-5 sm:py-5"
+      onClick={closeContextMenu}
+      onContextMenu={handleDesktopContextMenu}
+    >
       <main className="relative mx-auto flex min-h-0 w-full max-w-7xl flex-1 overflow-y-auto pb-24">
         {isOverview ? (
           <Outlet />
@@ -79,6 +145,34 @@ export function ShellLayout() {
           onDockNavigate={(experimentId) => dispatch(openWindow(experimentId))}
         />
       )}
+
+      {contextMenuPosition ? (
+        <DesktopContextMenu
+          position={contextMenuPosition}
+          onClose={closeContextMenu}
+          onCopyCommand={() => {
+            void navigator.clipboard?.writeText("pnpm create:experiment <name>");
+            closeContextMenu();
+          }}
+          onCopyRoute={() => {
+            void navigator.clipboard?.writeText(window.location.href);
+            closeContextMenu();
+          }}
+          onOpenFirstExperiment={() => {
+            if (firstExperiment) {
+              dispatch(openWindow(firstExperiment.id));
+              navigate(firstExperiment.path);
+            }
+            closeContextMenu();
+          }}
+          onSleep={() => {
+            dispatch(sleepPlayground());
+            closeContextMenu();
+          }}
+        />
+      ) : null}
+
+      {sleeping ? <SleepScreen onWake={() => dispatch(wakePlayground())} /> : null}
     </div>
   );
 }
@@ -153,7 +247,7 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       aria-label={label}
       className={({ isActive }) =>
         cn(
-          "group/dock relative flex items-center justify-center rounded-[18px] p-0.5 transition-transform duration-150 hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "mac-dock-link group/dock relative flex items-center justify-center rounded-[18px] p-0.5 transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           isActive && "dock-active"
         )
       }
@@ -161,10 +255,153 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       to={to}
       onClick={() => onNavigate(id)}
     >
-      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 group-hover/dock:scale-[1.12] sm:size-14">
+      <span className="mac-dock-tooltip" aria-hidden="true">
+        {label}
+      </span>
+      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 sm:size-14">
         <FlaskConical aria-hidden="true" className="mac-dock-icon-glyph" strokeWidth={2.35} />
       </span>
-      <span className="mac-dock-running-dot opacity-0 transition-opacity data-[active=true]:opacity-100" data-active={active} />
+      <span
+        className="mac-dock-running-dot opacity-0 transition-opacity data-[active=true]:opacity-100"
+        data-active={active}
+      />
     </NavLink>
+  );
+}
+
+type ContextMenuPosition = {
+  x: number;
+  y: number;
+};
+
+type DesktopContextMenuProps = {
+  position: ContextMenuPosition;
+  onClose: () => void;
+  onCopyCommand: () => void;
+  onCopyRoute: () => void;
+  onOpenFirstExperiment: () => void;
+  onSleep: () => void;
+};
+
+function DesktopContextMenu({
+  position,
+  onClose,
+  onCopyCommand,
+  onCopyRoute,
+  onOpenFirstExperiment,
+  onSleep
+}: DesktopContextMenuProps) {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    menuRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+  }, []);
+
+  return (
+    <div
+      aria-label="Desktop menu"
+      className="mac-context-menu"
+      ref={menuRef}
+      role="menu"
+      style={{ left: position.x, top: position.y }}
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          onClose();
+        }
+      }}
+    >
+      <button
+        className="mac-context-menu-item"
+        role="menuitem"
+        type="button"
+        onClick={onOpenFirstExperiment}
+      >
+        <Play aria-hidden="true" size={15} />
+        Open first lab
+      </button>
+      <button
+        className="mac-context-menu-item"
+        role="menuitem"
+        type="button"
+        onClick={onCopyRoute}
+      >
+        <Clipboard aria-hidden="true" size={15} />
+        Copy current URL
+      </button>
+      <button
+        className="mac-context-menu-item"
+        role="menuitem"
+        type="button"
+        onClick={onCopyCommand}
+      >
+        <TerminalSquare aria-hidden="true" size={15} />
+        Copy experiment command
+      </button>
+      <span className="mac-context-menu-separator" role="separator" />
+      <button className="mac-context-menu-item" role="menuitem" type="button" onClick={onSleep}>
+        <Moon aria-hidden="true" size={15} />
+        Focus / Sleep Screen
+      </button>
+    </div>
+  );
+}
+
+type SleepScreenProps = {
+  onWake: () => void;
+};
+
+function SleepScreen({ onWake }: SleepScreenProps) {
+  const [now, setNow] = useState(() => new Date());
+  const wakeButtonRef = useRef<HTMLButtonElement>(null);
+  const timeLabel = useMemo(
+    () =>
+      new Intl.DateTimeFormat("zh-CN", {
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(now),
+    [now]
+  );
+  const dateLabel = useMemo(
+    () =>
+      new Intl.DateTimeFormat("zh-CN", {
+        month: "long",
+        day: "numeric",
+        weekday: "long"
+      }).format(now),
+    [now]
+  );
+
+  useEffect(() => {
+    wakeButtonRef.current?.focus();
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <section
+      aria-label="Focus screen"
+      aria-modal="true"
+      className="sleep-screen"
+      role="dialog"
+      onClick={onWake}
+    >
+      <div className="sleep-screen-clock" aria-live="polite">
+        <p>{dateLabel}</p>
+        <strong>{timeLabel}</strong>
+      </div>
+      <button
+        className="sleep-screen-wake"
+        ref={wakeButtonRef}
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onWake();
+        }}
+      >
+        Wake Playground
+      </button>
+    </section>
   );
 }

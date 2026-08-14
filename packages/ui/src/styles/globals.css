@@ -147,6 +147,10 @@
     -webkit-backdrop-filter: blur(34px) saturate(190%) contrast(1.04);
   }
 
+  .mac-dock-link {
+    transform-origin: bottom center;
+  }
+
   .mac-dock::before {
     content: "";
     position: absolute;
@@ -185,6 +189,7 @@
       inset 0 -1px 0 hsl(214 100% 9% / 0.36),
       inset 0 0 0 1px hsl(0 0% 100% / 0.12),
       0 10px 22px hsl(218 45% 14% / 0.24);
+    transform-origin: bottom center;
   }
 
   .mac-dock-icon::before {
@@ -232,6 +237,149 @@
     transform: translateX(-50%);
   }
 
+  .mac-dock-tooltip {
+    position: absolute;
+    bottom: calc(100% + 9px);
+    left: 50%;
+    z-index: 2;
+    max-width: 12rem;
+    padding: 4px 9px;
+    border: 1px solid hsl(0 0% 100% / 0.42);
+    border-radius: 8px;
+    background: hsl(0 0% 100% / 0.72);
+    color: hsl(240 6% 10%);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.25;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 5px) scale(0.96);
+    transform-origin: bottom center;
+    white-space: nowrap;
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.72),
+      0 10px 24px hsl(240 24% 8% / 0.22);
+    backdrop-filter: blur(18px) saturate(170%);
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
+  }
+
+  .mac-context-menu {
+    position: fixed;
+    z-index: 45;
+    display: grid;
+    width: 244px;
+    gap: 2px;
+    padding: 6px;
+    border: 1px solid hsl(0 0% 100% / 0.44);
+    border-radius: 12px;
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.72), hsl(0 0% 100% / 0.48)),
+      hsl(220 16% 96% / 0.72);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.76),
+      0 18px 46px hsl(240 24% 8% / 0.28);
+    backdrop-filter: blur(28px) saturate(170%);
+    -webkit-backdrop-filter: blur(28px) saturate(170%);
+  }
+
+  .mac-context-menu-item {
+    display: flex;
+    min-height: 32px;
+    align-items: center;
+    gap: 9px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: hsl(240 6% 12%);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: left;
+    cursor: default;
+  }
+
+  .mac-context-menu-item:hover,
+  .mac-context-menu-item:focus-visible {
+    background: hsl(211 100% 42%);
+    color: hsl(0 0% 100%);
+    outline: none;
+  }
+
+  .mac-context-menu-separator {
+    height: 1px;
+    margin: 4px 6px;
+    background: hsl(240 8% 38% / 0.18);
+  }
+
+  .sleep-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(2rem, 7vh, 4.5rem) 1.5rem;
+    background:
+      linear-gradient(180deg, hsl(225 45% 5% / 0.42), hsl(225 45% 5% / 0.68)),
+      radial-gradient(circle at 50% 24%, hsl(210 100% 72% / 0.28), transparent 28%),
+      linear-gradient(135deg, hsl(215 100% 12%), hsl(238 80% 20%) 48%, hsl(276 76% 35%) 100%);
+    color: hsl(0 0% 100%);
+    text-align: center;
+    backdrop-filter: blur(22px) saturate(130%);
+    -webkit-backdrop-filter: blur(22px) saturate(130%);
+  }
+
+  .sleep-screen-clock {
+    margin-top: clamp(2rem, 8vh, 5rem);
+    text-shadow: 0 8px 34px hsl(240 35% 4% / 0.5);
+  }
+
+  .sleep-screen-clock p {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .sleep-screen-clock strong {
+    display: block;
+    font-size: clamp(4.25rem, 13vw, 8.5rem);
+    font-weight: 650;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .sleep-screen-wake {
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid hsl(0 0% 100% / 0.36);
+    border-radius: 999px;
+    background: hsl(0 0% 100% / 0.18);
+    color: hsl(0 0% 100%);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.32),
+      0 18px 40px hsl(240 35% 4% / 0.28);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+  }
+
+  .sleep-screen-wake:hover,
+  .sleep-screen-wake:focus-visible {
+    background: hsl(0 0% 100% / 0.26);
+    outline: none;
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.42),
+      0 0 0 3px hsl(0 0% 100% / 0.24),
+      0 18px 40px hsl(240 35% 4% / 0.28);
+  }
+
   .liquid-card {
     border-color: hsl(0 0% 100% / 0.46);
     background:
@@ -244,11 +392,43 @@
     -webkit-backdrop-filter: blur(20px) saturate(160%);
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    .mac-dock-link:hover,
+    .mac-dock-link:focus-visible {
+      transform: translateY(-6px);
+    }
+
+    .mac-dock-link:hover .mac-dock-icon,
+    .mac-dock-link:focus-visible .mac-dock-icon {
+      transform: scale(1.14);
+    }
+
+    .mac-dock-link:hover + .mac-dock-link .mac-dock-icon,
+    .mac-dock-link:has(+ .mac-dock-link:hover) .mac-dock-icon {
+      transform: scale(1.06);
+    }
+
+    .mac-dock-link:hover .mac-dock-tooltip,
+    .mac-dock-link:focus-visible .mac-dock-tooltip {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+      transition:
+        opacity 120ms ease-out,
+        transform 120ms ease-out;
+    }
+  }
+
   @media (prefers-reduced-transparency: reduce) {
     .liquid-glass,
     .liquid-card,
-    .mac-dock {
+    .mac-dock,
+    .mac-context-menu {
       background: hsl(210 40% 98% / 0.98);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .sleep-screen {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
@@ -257,9 +437,28 @@
   @media (prefers-contrast: more) {
     .liquid-glass,
     .liquid-card,
-    .mac-dock {
+    .mac-dock,
+    .mac-context-menu {
       border-color: hsl(218 34% 9% / 0.36);
       background: hsl(210 40% 98% / 0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mac-dock-link,
+    .mac-dock-icon,
+    .mac-dock-tooltip,
+    .liquid-window {
+      transition: none;
+    }
+
+    .mac-dock-link:hover,
+    .mac-dock-link:focus-visible,
+    .mac-dock-link:hover .mac-dock-icon,
+    .mac-dock-link:focus-visible .mac-dock-icon,
+    .mac-dock-link:hover + .mac-dock-link .mac-dock-icon,
+    .mac-dock-link:has(+ .mac-dock-link:hover) .mac-dock-icon {
+      transform: none;
     }
   }
 }

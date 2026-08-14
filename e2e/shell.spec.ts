@@ -60,3 +60,25 @@ test("shell home opens experiments from the dock and window controls work", asyn
   ).toBeVisible();
   await expect(dock.locator("[data-active='true']")).toHaveCount(0);
 });
+
+test("desktop context menu can enter and leave focus sleep", async ({ page }) => {
+  await page.goto("/");
+
+  await page.mouse.click(40, 620, { button: "right" });
+  const menu = page.getByRole("menu", { name: "Desktop menu" });
+
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Open first lab" })).toBeVisible();
+
+  await menu.getByRole("menuitem", { name: "Focus / Sleep Screen" }).click();
+  await expect(page.getByRole("dialog", { name: "Focus screen" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Wake Playground" })).toBeVisible();
+
+  await page.getByRole("button", { name: "Wake Playground" }).click();
+  await expect(page.getByRole("dialog", { name: "Focus screen" })).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", {
+      name: "Explore new frontend ideas without losing the system."
+    })
+  ).toBeVisible();
+});
