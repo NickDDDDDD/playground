@@ -17,7 +17,7 @@ export function HomePage() {
       ref={pageRef}
     >
       <div
-        className="liquid-card rounded-[28px] border p-5 sm:col-span-6 sm:p-7 lg:col-span-7 lg:row-span-2"
+        className="desktop-widget-motion liquid-card rounded-[28px] border p-5 sm:col-span-6 sm:p-7 lg:col-span-7 lg:row-span-2"
         data-gsap-reveal
       >
         <div className="flex h-full min-h-[20rem] flex-col justify-between">
@@ -46,7 +46,7 @@ export function HomePage() {
       </div>
 
       <div
-        className="liquid-card grid content-start gap-2 rounded-[28px] border p-4 sm:col-span-3 lg:col-span-5"
+        className="desktop-widget-motion liquid-card grid content-start gap-2 rounded-[28px] border p-4 sm:col-span-3 lg:col-span-5"
         data-gsap-reveal
       >
         <StatusRow label="API layer" value={`${data?.status ?? "loading"} via ${data?.source ?? "rtk-query"}`} />
@@ -67,7 +67,7 @@ export function HomePage() {
       <div className="grid gap-3 sm:col-span-6 lg:col-span-4" data-gsap-reveal>
         {experiments.map((experiment) => (
           <Link
-            className="liquid-card group grid gap-4 rounded-[28px] border p-4 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="desktop-widget-motion liquid-card group grid gap-4 rounded-[28px] border p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             key={experiment.id}
             to={experiment.path}
           >
@@ -129,7 +129,10 @@ type FeatureCardProps = {
 
 function FeatureCard({ children, className, icon, title }: FeatureCardProps) {
   return (
-    <Card className={`liquid-card rounded-[28px] ${className ?? ""}`} data-gsap-reveal>
+    <Card
+      className={`desktop-widget-motion liquid-card rounded-[28px] ${className ?? ""}`}
+      data-gsap-reveal
+    >
       <CardHeader>
         <div className="mb-3 flex size-11 items-center justify-center rounded-[18px] bg-white/64 text-primary shadow-sm ring-1 ring-white/60 [&_svg]:size-5">
           {icon}

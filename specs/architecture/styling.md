@@ -26,6 +26,7 @@
 - Tailwind source discovery 集中在共享 stylesheet 中维护。
 - shell 使用桌面层、实验窗口和底部 Dock。
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
+- Overview 桌面 widget 可以使用统一的 `desktop-widget-motion` 微动反馈；只允许短时 `transform` 位移，不使用布局属性动画，也不得只给单个卡片孤立实现。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
 - Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
@@ -48,6 +49,7 @@
 共享 stylesheet 提供这些可复用 class：
 
 - `desktop-wallpaper`：桌面背景层。
+- `desktop-widget-motion`：Overview 桌面 widget 的轻微 hover/focus motion。
 - `liquid-glass`：结构性 glass surface，用于窗口和需要更重材质的浮层。
 - `liquid-window`：窗口级半径规则。
 - `mac-dock`：macOS Dock 近似底座。
@@ -77,6 +79,7 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - 可复用 primitives 从 `@playground/ui` 导入。
 - 共享 UI primitives 能保留 `inline-flex`、`size-*`、`gap-*` 等布局 utility。
 - `/` 可以直接显示 Overview 桌面。
+- Overview 桌面 widget 的 hover motion 应保持一致，最大说明卡片、状态卡片、功能卡片和实验入口卡片不应出现只有某一个能动的割裂感。
 - Overview 不出现在 Dock。
 - 实验入口出现在底部 Dock，而不是左侧 sidebar。
 - 实验窗口最小化后回到桌面，点击对应 Dock item 可以恢复。
