@@ -15,6 +15,7 @@ import {
 } from "../store/slices/app-layout-slice";
 import {
   createDockSpringState,
+  getDockInteractionIntensity,
   getDockMotionTarget,
   isDockSpringSettled,
   stepDockSpring,
@@ -244,10 +245,12 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
   const dockFrameRef = useRef<number | null>(null);
   const animateDockRef = useRef<() => void>(() => undefined);
   const dockPointerXRef = useRef<number | null>(null);
+  const dockPointerYRef = useRef<number | null>(null);
   const dockMotionEnabledRef = useRef(false);
 
   const resetDockMotion = useCallback(() => {
     dockPointerXRef.current = null;
+    dockPointerYRef.current = null;
 
     if (dockFrameRef.current !== null) {
       window.cancelAnimationFrame(dockFrameRef.current);
@@ -278,6 +281,8 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
 
     const icons = Array.from(dock.querySelectorAll<HTMLElement>("[data-dock-icon]"));
     const pointerX = dockPointerXRef.current;
+    const pointerY = dockPointerYRef.current;
+    const dockRect = dock.getBoundingClientRect();
     let allSettled = true;
 
     dock.toggleAttribute("data-magnifying", pointerX !== null);
@@ -287,8 +292,10 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
       icon.dataset.dockBaseSize = String(baseSize);
 
       const rect = icon.getBoundingClientRect();
+      const intensity =
+        pointerY === null ? 0 : getDockInteractionIntensity(pointerY, dockRect, baseSize);
       const distance = pointerX === null ? null : pointerX - (rect.left + rect.width / 2);
-      const target = getDockMotionTarget(distance, baseSize);
+      const target = getDockMotionTarget(distance, baseSize, intensity);
       const currentState = dockItemStatesRef.current.get(icon) ?? createDockSpringState(baseSize);
       const nextState = stepDockSpring(currentState, target);
       const tooltipOffset = Math.max(
@@ -339,6 +346,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
       }
 
       dockPointerXRef.current = event.clientX;
+      dockPointerYRef.current = event.clientY;
       startDockAnimation();
     },
     [startDockAnimation]
@@ -346,6 +354,7 @@ function ExperimentDock({ runningExperimentId, onDockNavigate }: ExperimentDockP
 
   const handleDockPointerLeave = useCallback(() => {
     dockPointerXRef.current = null;
+    dockPointerYRef.current = null;
     startDockAnimation();
   }, [startDockAnimation]);
 

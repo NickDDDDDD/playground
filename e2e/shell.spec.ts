@@ -33,9 +33,12 @@ test("shell home opens experiments from the dock and window controls work", asyn
 
   await expect
     .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)
-    .toBeGreaterThan(baseIconWidth + 20);
+    .toBeGreaterThan(baseIconWidth + 4);
 
   await dock.getByRole("link", { name: "Welcome Lab" }).hover();
+  await expect
+    .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)
+    .toBeLessThan(baseIconWidth * 1.75);
   await expect
     .poll(async () =>
       dockLink.evaluate((element) => {

@@ -9,12 +9,12 @@ export type DockSpringState = DockMotionTarget & {
 };
 
 export const dockMagnificationConfig = {
-  damping: 0.68,
+  approachFactor: 0.22,
   distanceLimitMultiplier: 6,
   liftMultiplier: 0.22,
+  maxAmplification: 0.42,
   sizeMultipliers: [1, 1.1, 1.618, 2.618, 1.618, 1.1, 1],
-  settleEpsilon: 0.01,
-  stiffness: 0.26
+  settleEpsilon: 0.01
 } as const;
 
 export function createDockSpringState(baseSize: number): DockSpringState {
@@ -26,10 +26,15 @@ export function createDockSpringState(baseSize: number): DockSpringState {
   };
 }
 
-export function getDockMotionTarget(distance: number | null, baseSize: number): DockMotionTarget {
+export function getDockMotionTarget(
+  distance: number | null,
+  baseSize: number,
+  intensity = 1
+): DockMotionTarget {
   const distanceLimit = baseSize * dockMagnificationConfig.distanceLimitMultiplier;
+  const clampedIntensity = clamp(intensity, 0, 1);
 
-  if (distance === null || Math.abs(distance) > distanceLimit) {
+  if (distance === null || clampedIntensity === 0 || Math.abs(distance) > distanceLimit) {
     return {
       lift: 0,
       size: baseSize
@@ -38,7 +43,12 @@ export function getDockMotionTarget(distance: number | null, baseSize: number): 
 
   const size = interpolate(
     getDistanceInput(distanceLimit),
-    dockMagnificationConfig.sizeMultipliers.map((multiplier) => baseSize * multiplier),
+    dockMagnificationConfig.sizeMultipliers.map((multiplier) => {
+      const tunedMultiplier =
+        1 + (multiplier - 1) * dockMagnificationConfig.maxAmplification * clampedIntensity;
+
+      return baseSize * tunedMultiplier;
+    }),
     distance
   );
 
@@ -52,12 +62,8 @@ export function stepDockSpring(
   state: DockSpringState,
   target: DockMotionTarget
 ): DockSpringState {
-  const sizeVelocity =
-    (state.sizeVelocity + (target.size - state.size) * dockMagnificationConfig.stiffness) *
-    dockMagnificationConfig.damping;
-  const liftVelocity =
-    (state.liftVelocity + (target.lift - state.lift) * dockMagnificationConfig.stiffness) *
-    dockMagnificationConfig.damping;
+  const sizeVelocity = (target.size - state.size) * dockMagnificationConfig.approachFactor;
+  const liftVelocity = (target.lift - state.lift) * dockMagnificationConfig.approachFactor;
 
   return {
     lift: state.lift + liftVelocity,
@@ -76,6 +82,17 @@ export function isDockSpringSettled(state: DockSpringState, target: DockMotionTa
   );
 }
 
+export function getDockInteractionIntensity(
+  pointerY: number,
+  dockRect: Pick<DOMRect, "bottom" | "top">,
+  baseSize: number
+) {
+  const activationTop = dockRect.top - baseSize * 0.9;
+  const rawProgress = (pointerY - activationTop) / (dockRect.bottom - activationTop);
+
+  return smoothstep(clamp(rawProgress, 0, 1));
+}
+
 function getDistanceInput(distanceLimit: number) {
   return [
     -distanceLimit,
@@ -86,6 +103,14 @@ function getDistanceInput(distanceLimit: number) {
     distanceLimit / 1.25,
     distanceLimit
   ];
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function smoothstep(value: number) {
+  return value * value * (3 - 2 * value);
 }
 
 function interpolate(
