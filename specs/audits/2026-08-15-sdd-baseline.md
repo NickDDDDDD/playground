@@ -38,6 +38,9 @@
   - 处理：命令 code block 改为局部横向滚动，不制造页面级横向滚动。
 - grid/flex 布局中的 Card 可能被长内容的 min-content 宽度撑破。
   - 处理：共享 `Card` primitive 增加 `min-w-0`，让卡片在受限容器内正确收缩。
+- 全局 `a { color: inherit }` 放在 Tailwind utilities 之后，会覆盖 `Button asChild` 链接按钮的 `text-primary-foreground`。
+  - 处理：共享 base 样式移入 `@layer base`，让 utility class 正常覆盖元素默认样式。
+  - 回归：新增 Playwright visual accessibility 测试，覆盖核心路由文本对比度和 link button foreground utility。
 - `templates/experiment/package.json` 是未使用的旧模板，和 `scripts/create-experiment.mjs` 生成结果不一致。
   - 处理：删除该旧模板文件，当前实验生成入口以 `pnpm create:experiment <name>` 为准。
 - README 的开发流程没有同步 lint、test、browser verification 和 SDD skill workflow。

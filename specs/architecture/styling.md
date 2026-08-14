@@ -7,6 +7,7 @@
 ## 行为
 
 - 共享 CSS 变量和基础样式放在 `packages/ui`。
+- 共享 base 样式必须放在 Tailwind `@layer base` 中，避免全局元素样式覆盖 utility class。
 - apps 和 experiments 都导入共享 stylesheet。
 - UI 组件从 `packages/ui` 导出。
 - Tailwind source discovery 集中在共享 stylesheet 中维护。

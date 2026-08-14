@@ -17,6 +17,7 @@
 - 真实布局、路由流和浏览器行为使用 Playwright 或 Codex 浏览器验证；不要用 jsdom 判断真实 CSS layout。
 - 当前已接入 Vitest、React Testing Library、jsdom 和 Playwright。
 - Playwright 测试优先覆盖 shell、路由、布局和跨包挂载这类长期契约；不要把即将替换的占位实验文案写成 E2E 断言。
+- Playwright 需要覆盖关键 UI 的 computed style 回归，例如 semantic color utility 是否被全局 CSS 覆盖、核心路由文本对比度是否达标。
 - 当前本地 E2E 项目使用 Playwright-managed Chromium；运行前需要通过 `pnpm exec playwright install chromium` 安装浏览器二进制。
 - `pnpm test:e2e` 默认弹出浏览器窗口；需要无窗口回归时使用 `pnpm test:e2e:headless`。
 
