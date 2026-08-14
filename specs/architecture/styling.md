@@ -32,8 +32,8 @@
 - 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 和其他手动套用 `button-spotlight` 的可行动元素都必须写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
-- Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
-- Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。Dock icon 的可行动 surface 应通过 `Button asChild` 复用 `button-spotlight` 的指针高光和焦点基础能力。
+- Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影，不叠加固定高光层；底座和 icon 都使用统一的 `button-spotlight` 指针高光；图标使用 app icon squircle 形态，运行状态用小圆点表达。
+- Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。Dock icon 保持独立 app icon 结构，但应复用 `button-spotlight` 的指针高光；启用 spotlight 后不再叠加 icon 自带的固定高光层。
 - Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
 - Dock magnification 采用鼠标距离驱动的 interpolation：底部应有透明接近感应区，鼠标进入 Dock 上方接近区域时先轻微响应，越靠近 Dock 强度越大，而不是必须 hover 到 Dock 或 app icon 才触发。每个 item 根据指针到 icon 中心的水平距离计算尺寸，距离区间和曲线形状参考 `PuruVJ/macos-web` 的 Dock demo（`base * 6`、`1 / 1.1 / 1.618 / 2.618 / 1.618 / 1.1 / 1`），但放大幅度必须按当前实验数量和视觉密度调校，不能硬套最大 `2.618x`。
 - Dock magnification 必须遵守 `prefers-reduced-motion`，用户降低动态效果时取消放大和位移。

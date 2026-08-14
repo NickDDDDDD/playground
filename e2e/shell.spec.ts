@@ -30,6 +30,18 @@ test("shell home opens experiments from the dock and window controls work", asyn
       })
     )
     .not.toBe("none");
+  await expect(dock).toHaveClass(/button-spotlight/);
+  await expect
+    .poll(async () =>
+      dock.evaluate((element) => ({
+        x: element.style.getPropertyValue("--button-spotlight-x"),
+        y: element.style.getPropertyValue("--button-spotlight-y")
+      }))
+    )
+    .toMatchObject({
+      x: /\d+(\.\d+)?px/,
+      y: /-?\d+(\.\d+)?px/
+    });
 
   await expect
     .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)

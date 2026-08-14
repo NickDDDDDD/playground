@@ -152,18 +152,6 @@
     transform-origin: bottom center;
   }
 
-  .mac-dock::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    z-index: -1;
-    border-radius: 23px;
-    background:
-      radial-gradient(ellipse at 50% 0%, hsl(0 0% 100% / 0.72), transparent 44%),
-      linear-gradient(90deg, hsl(0 0% 100% / 0.16), transparent 36%, hsl(0 0% 100% / 0.16));
-    pointer-events: none;
-  }
-
   .mac-dock::after {
     content: "";
     position: absolute;
@@ -200,16 +188,6 @@
       inset 0 -1px 0 hsl(214 100% 9% / 0.36),
       inset 0 0 0 1px hsl(0 0% 100% / 0.12),
       0 10px 22px hsl(218 45% 14% / 0.24);
-  }
-
-  .mac-dock-icon::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, hsl(0 0% 100% / 0.52), hsl(0 0% 100% / 0.08) 38%, transparent 54%),
-      radial-gradient(ellipse at 50% 2%, hsl(0 0% 100% / 0.36), transparent 44%);
-    pointer-events: none;
   }
 
   .mac-dock-icon::after {
@@ -460,6 +438,19 @@
   .button-spotlight > * {
     position: relative;
     z-index: 1;
+  }
+
+  .mac-dock.button-spotlight {
+    overflow: visible;
+  }
+
+  .mac-dock.button-spotlight::before {
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  .mac-dock.button-spotlight[data-magnifying]::before {
+    opacity: 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
