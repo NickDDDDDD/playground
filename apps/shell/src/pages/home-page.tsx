@@ -115,7 +115,7 @@ export function HomePage() {
               </div>
             </div>
             <span
-              className="button-spotlight inline-flex h-10 justify-self-start items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5"
+              className="button-spotlight inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5"
             >
               Open
               <ArrowRight className="size-4" />
