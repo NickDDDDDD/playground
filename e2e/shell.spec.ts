@@ -4,7 +4,9 @@ test("shell home is reachable and the sidebar can collapse", async ({ page }) =>
   await page.goto("/");
 
   await expect(
-    page.getByRole("heading", { name: "Explore, isolate, and learn." })
+    page.getByRole("heading", {
+      name: "Explore new frontend ideas without losing the system."
+    })
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Playground" })).toBeVisible();
 

@@ -7,19 +7,19 @@ export function WelcomePage() {
 
   return (
     <section className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
-      <div className="flex flex-col gap-2">
+      <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
         <p className="text-sm font-medium text-primary">Experiment 001</p>
-        <h1 className="text-3xl font-semibold tracking-normal">Welcome Lab</h1>
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+        <h1 className="mt-3 text-3xl font-semibold tracking-normal">Welcome Lab</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
           This experiment is both a shell-mounted route and a standalone Vite app.
           It is intentionally small so the architecture is easy to inspect.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader>
-            <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-accent text-accent-foreground">
+            <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-accent text-accent-foreground shadow-sm">
               <SplitSquareHorizontal className="size-4" />
             </div>
             <CardTitle>Dual entry</CardTitle>
@@ -29,19 +29,19 @@ export function WelcomePage() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col gap-2">
-              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs">
+              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs text-foreground">
                 pnpm --filter @playground/experiment-welcome dev
               </code>
-              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs">
+              <code className="block max-w-full overflow-x-auto whitespace-nowrap rounded-md bg-muted px-2 py-1 text-xs text-foreground">
                 cd experiments/welcome && pnpm dev
               </code>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader>
-            <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-accent text-accent-foreground">
+            <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-accent text-accent-foreground shadow-sm">
               <Boxes className="size-4" />
             </div>
             <CardTitle>Local interaction</CardTitle>

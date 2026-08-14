@@ -4,6 +4,17 @@
 
 使用 Tailwind CSS 和共享的 shadcn-style primitives，让不同实验项目保持一致的视觉基础。
 
+## 视觉方向
+
+当前 shell 使用 calm dev-tool / lab-console 方向：
+
+- light theme。
+- 冷静浅灰背景。
+- emerald 作为唯一 action accent。
+- amber 只用于低频 icon tile 和辅助强调。
+- 边框与阴影都保持轻量，避免黑边卡片和强装饰。
+- 首页和实验页应像长期使用的工作台，不做 marketing hero。
+
 ## 行为
 
 - 共享 CSS 变量和基础样式放在 `packages/ui`。

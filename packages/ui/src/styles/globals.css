@@ -5,21 +5,21 @@
 @source "../../../../experiments";
 
 @theme {
-  --color-background: hsl(40 18% 97%);
-  --color-foreground: hsl(225 14% 12%);
+  --color-background: hsl(210 24% 97%);
+  --color-foreground: hsl(220 26% 10%);
   --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(225 14% 12%);
-  --color-primary: hsl(164 74% 27%);
+  --color-card-foreground: hsl(220 26% 10%);
+  --color-primary: hsl(164 72% 24%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(212 18% 91%);
-  --color-secondary-foreground: hsl(225 14% 12%);
-  --color-muted: hsl(212 18% 93%);
-  --color-muted-foreground: hsl(222 9% 42%);
-  --color-accent: hsl(36 78% 88%);
-  --color-accent-foreground: hsl(225 14% 12%);
-  --color-border: hsl(215 18% 82%);
-  --color-input: hsl(215 18% 82%);
-  --color-ring: hsl(164 74% 27%);
+  --color-secondary: hsl(205 24% 91%);
+  --color-secondary-foreground: hsl(220 26% 10%);
+  --color-muted: hsl(210 22% 93%);
+  --color-muted-foreground: hsl(218 12% 38%);
+  --color-accent: hsl(38 86% 88%);
+  --color-accent-foreground: hsl(220 26% 10%);
+  --color-border: hsl(211 21% 84%);
+  --color-input: hsl(211 21% 78%);
+  --color-ring: hsl(164 72% 24%);
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 

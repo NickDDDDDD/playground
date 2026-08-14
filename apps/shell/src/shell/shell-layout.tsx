@@ -16,7 +16,7 @@ export function ShellLayout() {
       <aside
         aria-label="Experiment navigation"
         className={cn(
-          "flex shrink-0 flex-col border-r border-border bg-card transition-[width] duration-200 max-md:w-full max-md:border-b max-md:border-r-0",
+          "flex shrink-0 flex-col border-r border-border bg-card/95 shadow-sm transition-[width] duration-200 max-md:w-full max-md:border-b max-md:border-r-0",
           sidebarCollapsed ? "md:w-16" : "md:w-72"
         )}
       >
@@ -81,9 +81,9 @@ function SidebarLink({ collapsed, icon, label, to }: SidebarLinkProps) {
     <NavLink
       className={({ isActive }) =>
         cn(
-          "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+          "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
           "max-md:h-11",
-          isActive && "bg-secondary text-foreground",
+          isActive ? "bg-secondary text-foreground shadow-sm" : "text-muted-foreground",
           collapsed && "justify-center px-0 max-md:px-3"
         )
       }
