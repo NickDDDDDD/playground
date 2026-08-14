@@ -23,10 +23,11 @@
 - apps 和 experiments 都导入共享 stylesheet。
 - UI 组件从 `packages/ui` 导出。
 - Tailwind source discovery 集中在共享 stylesheet 中维护。
-- shell 使用顶部菜单栏、中央窗口和底部 Dock。
-- 顶部 `Playground` 标题链接回到 Overview。
+- shell 使用桌面层、实验窗口和底部 Dock。
+- Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
-- Dock 可隐藏，让窗口区域获得更多空间。
+- Dock 不展示 Overview。
+- 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、最大化状态。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
 
 ## Material 基础层
@@ -34,9 +35,10 @@
 共享 stylesheet 提供这些可复用 class：
 
 - `desktop-wallpaper`：桌面背景层。
-- `liquid-glass`：结构性 glass surface，用于菜单栏、窗口和 Dock。
+- `liquid-glass`：结构性 glass surface，用于窗口和需要更重材质的浮层。
 - `liquid-window`：窗口级半径规则。
-- `liquid-dock`：Dock 级半径规则。
+- `mac-dock`：macOS Dock 近似底座。
+- `mac-dock-icon`：Dock app icon 近似外观。
 - `liquid-card`：内容卡片级 glass surface。
 
 这些 class 必须包含 reduced-transparency 和 high-contrast fallback。业务组件不应该散落重复的 glass CSS。
@@ -56,7 +58,8 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - shell 和独立运行的实验项目共享同一套主题。
 - 可复用 primitives 从 `@playground/ui` 导入。
 - 共享 UI primitives 能保留 `inline-flex`、`size-*`、`gap-*` 等布局 utility。
-- `Playground` 标题可以回到 Overview。
+- `/` 可以直接显示 Overview 桌面。
+- Overview 不出现在 Dock。
 - 实验入口出现在底部 Dock，而不是左侧 sidebar。
-- Dock 隐藏不会改变当前路由。
+- 实验窗口最小化不会改变当前路由，点击对应 Dock item 可以恢复。
 - mobile viewport 不出现由 shell navigation、Dock 或长命令文本造成的页面级横向滚动。

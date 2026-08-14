@@ -26,7 +26,7 @@ test.describe("visual accessibility", () => {
   test("link buttons keep their foreground utility color", async ({ page }) => {
     await page.goto("/");
 
-    const openButton = page.getByRole("link", { name: /Open first experiment/ });
+    const openButton = page.getByRole("link", { name: /Open first lab/ });
     await expect(openButton).toHaveCSS("color", "rgb(255, 255, 255)");
   });
 });

@@ -13,11 +13,14 @@ export function HomePage() {
 
   return (
     <section
-      className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-5 sm:px-6 sm:py-7"
+      className="grid w-full auto-rows-min grid-cols-1 gap-4 px-1 py-2 sm:grid-cols-6 sm:gap-5 sm:px-2 lg:grid-cols-12"
       ref={pageRef}
     >
-      <div className="grid gap-5 md:grid-cols-[1.45fr_0.9fr]" data-gsap-reveal>
-        <div className="flex flex-col justify-between rounded-[24px] border border-white/45 bg-white/48 p-5 shadow-[inset_0_1px_0_rgb(255_255_255_/_0.72),0_20px_60px_rgb(15_23_42_/_0.12)] backdrop-blur-xl sm:min-h-[22rem] sm:p-7">
+      <div
+        className="liquid-card rounded-[28px] border p-5 sm:col-span-6 sm:p-7 lg:col-span-7 lg:row-span-2"
+        data-gsap-reveal
+      >
+        <div className="flex h-full min-h-[20rem] flex-col justify-between">
           <div className="flex flex-col gap-4">
             <p className="text-sm font-medium text-primary">Spec-driven desktop lab</p>
             <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
@@ -31,39 +34,40 @@ export function HomePage() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button asChild>
               <Link to={experiments[0]?.path ?? "/"}>
-                Open first experiment
+                Open first lab
                 <ArrowRight />
               </Link>
             </Button>
             <span className="text-base leading-7 text-muted-foreground sm:text-sm sm:leading-6">
-              Use the Dock below as the experiment launcher.
+              Experiments live in the Dock.
             </span>
           </div>
         </div>
-
-        <div className="liquid-card grid content-start gap-2 rounded-[24px] border p-4">
-          <StatusRow label="API layer" value={`${data?.status ?? "loading"} via ${data?.source ?? "rtk-query"}`} />
-          <StatusRow label="Experiments" value={`${experiments.length} registered`} />
-          <StatusRow label="Workflow" value="Spec first" />
-        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3" data-gsap-reveal>
-        <FeatureCard icon={<Boxes />} title="Monorepo">
-          Apps, shared packages, and experiments stay separate without drifting apart.
-        </FeatureCard>
-        <FeatureCard icon={<Route />} title="Routing">
-          React Router mounts experiments in the shell and keeps standalone apps simple.
-        </FeatureCard>
-        <FeatureCard icon={<Server />} title="RTK Query">
-          Server state gets its own cache lifecycle instead of hand-written loading slices.
-        </FeatureCard>
+      <div
+        className="liquid-card grid content-start gap-2 rounded-[28px] border p-4 sm:col-span-3 lg:col-span-5"
+        data-gsap-reveal
+      >
+        <StatusRow label="API layer" value={`${data?.status ?? "loading"} via ${data?.source ?? "rtk-query"}`} />
+        <StatusRow label="Experiments" value={`${experiments.length} registered`} />
+        <StatusRow label="Workflow" value="Spec first" />
       </div>
 
-      <div className="grid gap-3" data-gsap-reveal>
+      <FeatureCard className="sm:col-span-3 lg:col-span-5" icon={<Boxes />} title="Monorepo">
+        Apps, shared packages, and experiments stay separate without drifting apart.
+      </FeatureCard>
+      <FeatureCard className="sm:col-span-3 lg:col-span-4" icon={<Route />} title="Routing">
+        React Router mounts experiments in windows and keeps standalone apps simple.
+      </FeatureCard>
+      <FeatureCard className="sm:col-span-3 lg:col-span-4" icon={<Server />} title="RTK Query">
+        Server state gets its own cache lifecycle instead of hand-written loading slices.
+      </FeatureCard>
+
+      <div className="grid gap-3 sm:col-span-6 lg:col-span-4" data-gsap-reveal>
         {experiments.map((experiment) => (
           <Link
-            className="liquid-card group grid gap-4 rounded-[24px] border p-4 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[1fr_auto] sm:items-center"
+            className="liquid-card group grid gap-4 rounded-[28px] border p-4 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             key={experiment.id}
             to={experiment.path}
           >
@@ -118,13 +122,14 @@ function StatusRow({ label, value }: StatusRowProps) {
 
 type FeatureCardProps = {
   children: React.ReactNode;
+  className?: string;
   icon: React.ReactNode;
   title: string;
 };
 
-function FeatureCard({ children, icon, title }: FeatureCardProps) {
+function FeatureCard({ children, className, icon, title }: FeatureCardProps) {
   return (
-    <Card className="liquid-card rounded-[24px]">
+    <Card className={`liquid-card rounded-[28px] ${className ?? ""}`} data-gsap-reveal>
       <CardHeader>
         <div className="mb-3 flex size-11 items-center justify-center rounded-[18px] bg-white/64 text-primary shadow-sm ring-1 ring-white/60 [&_svg]:size-5">
           {icon}

@@ -8,15 +8,21 @@
 
 - shell 拥有应用布局和顶层路由。
 - `/` 是 shell 内置 Overview 页面，不作为实验项目出现。
+- Overview 直接渲染在桌面层，不放进实验窗口。
 - 底部 Dock 只展示实验项目。
-- 点击顶部菜单栏的 `Playground` 标题回到 Overview 页面。
 - 实验项目通过 `ExperimentModule` 暴露路由元数据。
+- 实验路由渲染在桌面窗口中。
+- 窗口关闭按钮返回 `/`。
+- 窗口最小化按钮隐藏当前实验窗口，但不改变当前路由。
+- 点击当前实验的 Dock item 会恢复最小化窗口。
+- 窗口最大化按钮在普通窗口和最大化窗口之间切换。
 - 未匹配的路由渲染 not-found 页面。
 
 ## 验收标准
 
 - `/` 打开 shell 首页。
 - `/experiments/welcome` 挂载 welcome 实验。
-- Dock 中不展示 Overview；Overview 通过顶部 `Playground` 标题访问。
+- Dock 中不展示 Overview，只展示实验。
 - 每个实验都是 Dock 中的一个导航入口。
+- 实验窗口的关闭、最小化、最大化按钮都能改变真实 UI 状态。
 - welcome 实验也可以独立运行。

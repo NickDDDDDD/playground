@@ -1,22 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type AppLayoutState = {
-  dockCollapsed: boolean;
+  windowMaximized: boolean;
+  windowMinimized: boolean;
 };
 
 const initialState: AppLayoutState = {
-  dockCollapsed: false
+  windowMaximized: false,
+  windowMinimized: false
 };
 
 const appLayoutSlice = createSlice({
   name: "appLayout",
   initialState,
   reducers: {
-    toggleDock(state) {
-      state.dockCollapsed = !state.dockCollapsed;
+    closeWindow(state) {
+      state.windowMaximized = false;
+      state.windowMinimized = false;
+    },
+    minimizeWindow(state) {
+      state.windowMinimized = true;
+    },
+    restoreWindow(state) {
+      state.windowMinimized = false;
+    },
+    toggleWindowMaximized(state) {
+      state.windowMaximized = !state.windowMaximized;
+      state.windowMinimized = false;
     }
   }
 });
 
-export const { toggleDock } = appLayoutSlice.actions;
+export const { closeWindow, minimizeWindow, restoreWindow, toggleWindowMaximized } =
+  appLayoutSlice.actions;
 export const appLayoutReducer = appLayoutSlice.reducer;
