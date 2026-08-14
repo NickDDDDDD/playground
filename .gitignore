@@ -5,6 +5,8 @@ dist-ssr
 .vite
 .cache
 coverage
+test-results
+playwright-report
 *.log
 *.tsbuildinfo
 *.local

@@ -20,6 +20,7 @@ cd experiments/welcome && pnpm dev
 pnpm typecheck
 pnpm build
 pnpm test
+pnpm test:e2e
 ```
 
 ## Development Flow

@@ -65,7 +65,11 @@ pnpm build
 pnpm dev
 ```
 
-涉及用户级浏览器流程时，使用 Playwright。Playwright 依赖接入后，再启用 `pnpm test:e2e`。
+涉及用户级浏览器流程时，使用 Playwright：
+
+```bash
+pnpm test:e2e
+```
 
 ## Git 约定
 

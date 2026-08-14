@@ -14,6 +14,7 @@ export function ShellLayout() {
   return (
     <div className="flex min-h-screen bg-background">
       <aside
+        aria-label="Experiment navigation"
         className={cn(
           "flex shrink-0 flex-col border-r border-border bg-card transition-[width] duration-200",
           sidebarCollapsed ? "w-16" : "w-72"
@@ -39,6 +40,7 @@ export function ShellLayout() {
           </Link>
           <Button
             aria-label="Toggle sidebar"
+            aria-expanded={!sidebarCollapsed}
             size="icon"
             variant="ghost"
             onClick={() => dispatch(toggleSidebar())}
