@@ -26,8 +26,9 @@
 - Tailwind source discovery 集中在共享 stylesheet 中维护。
 - shell 使用桌面层、实验窗口和底部 Dock。
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
-- Overview 桌面 widget 可以使用统一的 `desktop-widget-motion` 微动反馈；只允许短时 `transform` 位移，不使用布局属性动画，也不得只给单个卡片孤立实现。
-- Overview 桌面 widget 内的主 action 应响应整张卡片 hover：按钮整体轻微右移，不只移动按钮内 icon。
+- Overview 桌面 widget 的 hover motion 只用于主行动卡片和实验入口卡片；状态卡、功能说明卡等信息展示卡保持静态，避免桌面元素过度漂浮。
+- `desktop-widget-motion` 只允许短时 `transform` 位移，不使用布局属性动画。
+- Overview 桌面 widget 内的主 action 应响应整张可行动卡片 hover：按钮整体轻微右移，不只移动按钮内 icon。
 - 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 负责写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
@@ -51,7 +52,7 @@
 共享 stylesheet 提供这些可复用 class：
 
 - `desktop-wallpaper`：桌面背景层。
-- `desktop-widget-motion`：Overview 桌面 widget 的轻微 hover/focus motion。
+- `desktop-widget-motion`：Overview 里主行动卡片和实验入口卡片的轻微 hover/focus motion。
 - `button-spotlight`：按钮径向 hover/focus 高光。
 - `liquid-glass`：结构性 glass surface，用于窗口和需要更重材质的浮层。
 - `liquid-window`：窗口级半径规则。
@@ -82,7 +83,7 @@ Tailwind CSS v4 必须显式扫描会产出 utility class 的 workspace 根目�
 - 可复用 primitives 从 `@playground/ui` 导入。
 - 共享 UI primitives 能保留 `inline-flex`、`size-*`、`gap-*` 等布局 utility。
 - `/` 可以直接显示 Overview 桌面。
-- Overview 桌面 widget 的 hover motion 应保持一致，最大说明卡片、状态卡片、功能卡片和实验入口卡片不应出现只有某一个能动的割裂感。
+- Overview 桌面 widget 的 hover motion 应保持克制，只出现在最大说明卡片和实验入口卡片；状态卡片、功能卡片不应有微动。
 - Overview 不出现在 Dock。
 - 实验入口出现在底部 Dock，而不是左侧 sidebar。
 - 实验窗口最小化后回到桌面，点击对应 Dock item 可以恢复。

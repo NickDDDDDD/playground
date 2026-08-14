@@ -46,7 +46,7 @@ export function HomePage() {
       </div>
 
       <div
-        className="desktop-widget-motion liquid-card grid content-start gap-2 rounded-[28px] border p-4 sm:col-span-3 lg:col-span-5"
+        className="liquid-card grid content-start gap-2 rounded-[28px] border p-4 sm:col-span-3 lg:col-span-5"
         data-gsap-reveal
       >
         <StatusRow label="API layer" value={`${data?.status ?? "loading"} via ${data?.source ?? "rtk-query"}`} />
@@ -129,10 +129,7 @@ type FeatureCardProps = {
 
 function FeatureCard({ children, className, icon, title }: FeatureCardProps) {
   return (
-    <Card
-      className={`desktop-widget-motion liquid-card rounded-[28px] ${className ?? ""}`}
-      data-gsap-reveal
-    >
+    <Card className={`liquid-card rounded-[28px] ${className ?? ""}`} data-gsap-reveal>
       <CardHeader>
         <div className="mb-3 flex size-11 items-center justify-center rounded-[18px] bg-white/64 text-primary shadow-sm ring-1 ring-white/60 [&_svg]:size-5">
           {icon}
