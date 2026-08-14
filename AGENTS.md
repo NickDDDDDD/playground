@@ -50,6 +50,7 @@
 ```bash
 pnpm lint
 pnpm typecheck
+pnpm test
 ```
 
 涉及构建、依赖、Vite、Tailwind 或 workspace 边界时，额外运行：
@@ -63,6 +64,8 @@ pnpm build
 ```bash
 pnpm dev
 ```
+
+涉及用户级浏览器流程时，使用 Playwright。Playwright 依赖接入后，再启用 `pnpm test:e2e`。
 
 ## Git 约定
 

@@ -19,6 +19,7 @@ pnpm --filter @playground/experiment-welcome dev
 cd experiments/welcome && pnpm dev
 pnpm typecheck
 pnpm build
+pnpm test
 ```
 
 ## Development Flow
