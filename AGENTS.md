@@ -43,6 +43,19 @@
 - 新增会产出 Tailwind classes 的 workspace 根目录时，必须同步更新 `@source`。
 - UI 修复要用浏览器验证，不只依赖编译通过。
 
+## UI 设计 Skill 工作流
+
+当用户要求优化 UI、重设计页面、polish 组件、改善 UX、让页面更好看，或类似表达时，遵循 `Design direction -> UI implementation -> visual audit -> browser review -> iterative improvement`。
+
+- `design-taste-frontend`：负责视觉方向和 taste 判断。用于确定页面应该如何避免 generic AI UI，例如视觉层级、密度、间距、字体、颜色、构图、动效克制程度。
+- `ui-design`：负责把视觉方向落到当前技术栈内的真实组件、CSS、响应式布局和交互状态。优先复用 `@playground/ui`、Tailwind v4 token 和已有组件模式。
+- `typography-audit`：实现完成后用于检查字体层级、字号、字重、行高、节奏、可读性、对齐和信息密度。
+- `product-design`：只在新增页面、用户流程、信息架构、primary action 或交互结构明显变化时使用；普通视觉 polish 不强制调用。
+
+执行 UI 工作时先检查现有页面结构、组件、typography、spacing、colors、layout、responsive behavior 和 interaction states，再决定改动。除非用户明确要求 redesign，不改变业务逻辑、API、数据结构、路由语义和现有用户流程。
+
+当前项目是 React + Vite + TypeScript + Tailwind CSS v4 + shadcn-style 自有 UI package。不要为了套用 skill 示例而迁移技术栈；skill 只提供设计和实现原则。
+
 ## 验证命令
 
 常规改动完成后至少运行：
@@ -70,6 +83,8 @@ pnpm dev
 ```bash
 pnpm test:e2e
 ```
+
+UI 修改完成后，至少检查 desktop 和 mobile viewport。优先使用 Playwright 或浏览器自动化查看实际渲染结果，找出最明显的视觉问题并迭代修复；目标是 rendered UI looks good，而不是只让源码看起来合理。
 
 ## Git 约定
 
