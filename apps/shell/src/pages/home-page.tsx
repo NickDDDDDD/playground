@@ -32,10 +32,10 @@ export function HomePage() {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild>
+            <Button className="group/button" asChild>
               <Link to={experiments[0]?.path ?? "/"}>
                 Open first lab
-                <ArrowRight />
+                <ArrowRight className="transition-transform group-hover/button:translate-x-0.5" />
               </Link>
             </Button>
             <span className="text-base leading-7 text-muted-foreground sm:text-sm sm:leading-6">
@@ -92,7 +92,7 @@ export function HomePage() {
                 </div>
               </div>
             </div>
-            <span className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5">
+            <span className="button-spotlight inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-transform group-hover:translate-x-0.5">
               Open
               <ArrowRight className="size-4" />
             </span>

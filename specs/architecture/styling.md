@@ -27,12 +27,13 @@
 - shell 使用桌面层、实验窗口和底部 Dock。
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Overview 桌面 widget 可以使用统一的 `desktop-widget-motion` 微动反馈；只允许短时 `transform` 位移，不使用布局属性动画，也不得只给单个卡片孤立实现。
+- 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 负责写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
 - Dock 只展示实验入口；每个实验是一个 Dock item。
 - Dock 不展示 Overview。
 - Dock 视觉应接近 macOS Dock 的桌面托盘隐喻：底座保持贴近底部、较薄、强 blur、柔和底部阴影；图标使用 app icon squircle 形态，运行状态用小圆点表达。
 - Dock icon 应具备 app icon 质感：使用 squircle、克制高光、深浅层次和主体 glyph，不使用裸 outline icon 加纯色背景的普通导航图标风格，也不叠加过多装饰层。
 - Dock 运行指示点不参与 Dock item 布局计算，避免把 app icon 顶离底座垂直中心。
-- Dock hover magnification 当前采用轻量版：当前 item 用 `transform` 放大并上移，邻近 item 轻微放大；不得动画 `width`、`height`、`top`、`left` 等布局属性。
+- Dock hover magnification 当前采用轻量版：Dock 底座整体轻微上浮放大，当前 item 用 `transform` 放大并上移，邻近 item 轻微放大；不得动画 `width`、`height`、`top`、`left` 等布局属性。
 - Dock magnification 必须遵守 `prefers-reduced-motion`，用户降低动态效果时取消放大和位移。
 - 以后如果 Dock item 数量足够多，可以参考 `PuruVJ/macos-web` 的鼠标距离驱动 spring interpolation 做完整版 magnification；这需要单独评估可访问性、性能和测试策略。
 - Dock 的尺寸和圆角是 Web 近似值，不记录为 Apple 官方固定 token；后续调整应优先保持比例、材质层级和交互语义一致。
@@ -40,7 +41,7 @@
 - 实验窗口使用红黄绿窗口按钮，按钮必须真实改变关闭、最小化、全屏最大化状态。
 - 最小化和关闭都返回桌面 Overview；Dock 运行指示点用于表达二者差异。
 - 桌面右键菜单属于 shell 层低频操作入口；默认不进入实验包契约。当前菜单可提供打开首个实验、复制当前 URL、复制实验创建命令、进入 Focus / Sleep Screen。
-- Focus / Sleep Screen 是轻量沉浸状态，不是锁屏/登录系统；它不要求密码、不管理账号，也不改变当前路由或实验运行状态。
+- Focus / Sleep Screen 是轻量沉浸状态，不是锁屏/登录系统；它不要求密码、不管理账号，也不改变当前路由或实验运行状态。Wake 不能硬切，应先播放短退出动画再卸载 overlay。
 - 长期不做窗口拖拽/自由 resize、真实 app icon 图片资产、wallpaper 管理、完整锁屏/登录/启动系统、Finder/系统设置等 OS 级模拟功能。
 - 窄屏视口下 Dock 保持底部导航形态，避免页面级横向溢出。
 
@@ -50,6 +51,7 @@
 
 - `desktop-wallpaper`：桌面背景层。
 - `desktop-widget-motion`：Overview 桌面 widget 的轻微 hover/focus motion。
+- `button-spotlight`：按钮径向 hover/focus 高光。
 - `liquid-glass`：结构性 glass surface，用于窗口和需要更重材质的浮层。
 - `liquid-window`：窗口级半径规则。
 - `mac-dock`：macOS Dock 近似底座。

@@ -131,7 +131,7 @@
     position: fixed;
     isolation: isolate;
     overflow: visible;
-    padding: 6px 8px;
+    padding: 7px 9px;
     border: 1px solid hsl(0 0% 100% / 0.46);
     border-radius: 24px;
     background:
@@ -143,6 +143,7 @@
       0 1px 0 hsl(0 0% 100% / 0.4),
       0 18px 44px hsl(240 24% 8% / 0.32);
     transform-origin: bottom center;
+    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
     backdrop-filter: blur(34px) saturate(190%) contrast(1.04);
     -webkit-backdrop-filter: blur(34px) saturate(190%) contrast(1.04);
   }
@@ -331,6 +332,17 @@
     text-align: center;
     backdrop-filter: blur(22px) saturate(130%);
     -webkit-backdrop-filter: blur(22px) saturate(130%);
+    transition:
+      opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 260ms cubic-bezier(0.32, 0.72, 0, 1),
+      filter 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sleep-screen[data-state="exiting"] {
+    opacity: 0;
+    filter: blur(8px);
+    pointer-events: none;
+    transform: translateY(-4.5%);
   }
 
   .sleep-screen-clock {
@@ -354,6 +366,8 @@
   }
 
   .sleep-screen-wake {
+    position: relative;
+    overflow: hidden;
     min-height: 42px;
     padding: 0 18px;
     border: 1px solid hsl(0 0% 100% / 0.36);
@@ -372,11 +386,10 @@
 
   .sleep-screen-wake:hover,
   .sleep-screen-wake:focus-visible {
-    background: hsl(0 0% 100% / 0.26);
     outline: none;
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.42),
-      0 0 0 3px hsl(0 0% 100% / 0.24),
+      0 0 0 3px hsl(0 0% 100% / 0.18),
       0 18px 40px hsl(240 35% 4% / 0.28);
   }
 
@@ -397,7 +410,46 @@
     transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .button-spotlight {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+
+  .button-spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        circle 58px at var(--button-spotlight-x, 50%) var(--button-spotlight-y, 50%),
+        hsl(0 0% 100% / 0.34),
+        hsl(0 0% 100% / 0.16) 34%,
+        transparent 68%
+      );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+  }
+
+  .button-spotlight:hover::before,
+  .button-spotlight:focus-visible::before {
+    opacity: 1;
+  }
+
+  .button-spotlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
   @media (hover: hover) and (pointer: fine) {
+    .mac-dock:hover,
+    .mac-dock:focus-within {
+      transform: translateY(-3px) scale(1.055);
+    }
+
     .desktop-widget-motion:hover,
     .desktop-widget-motion:focus-visible {
       transform: translateY(-2px);
@@ -405,17 +457,17 @@
 
     .mac-dock-link:hover,
     .mac-dock-link:focus-visible {
-      transform: translateY(-6px);
+      transform: translateY(-10px);
     }
 
     .mac-dock-link:hover .mac-dock-icon,
     .mac-dock-link:focus-visible .mac-dock-icon {
-      transform: scale(1.14);
+      transform: scale(1.28);
     }
 
     .mac-dock-link:hover + .mac-dock-link .mac-dock-icon,
     .mac-dock-link:has(+ .mac-dock-link:hover) .mac-dock-icon {
-      transform: scale(1.06);
+      transform: scale(1.14);
     }
 
     .mac-dock-link:hover .mac-dock-tooltip,
@@ -455,16 +507,22 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .mac-dock,
     .mac-dock-link,
     .mac-dock-icon,
     .mac-dock-tooltip,
     .desktop-widget-motion,
+    .button-spotlight::before,
+    .sleep-screen,
     .liquid-window {
       transition: none;
     }
 
     .desktop-widget-motion:hover,
     .desktop-widget-motion:focus-visible,
+    .sleep-screen[data-state="exiting"],
+    .mac-dock:hover,
+    .mac-dock:focus-within,
     .mac-dock-link:hover,
     .mac-dock-link:focus-visible,
     .mac-dock-link:hover .mac-dock-icon,

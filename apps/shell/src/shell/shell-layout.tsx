@@ -22,6 +22,7 @@ export function ShellLayout() {
     (state) => state.appLayout
   );
   const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null);
+  const [sleepState, setSleepState] = useState<"entered" | "exiting">("entered");
   const activeExperiment = experiments.find((experiment) =>
     location.pathname.startsWith(experiment.path)
   );
@@ -61,13 +62,22 @@ export function ShellLayout() {
     [openContextMenu, sleeping]
   );
 
+  const wakeFromSleep = useCallback(() => {
+    if (!sleeping || sleepState === "exiting") {
+      return;
+    }
+
+    setSleepState("exiting");
+    window.setTimeout(() => dispatch(wakePlayground()), 260);
+  }, [dispatch, sleeping, sleepState]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         closeContextMenu();
 
         if (sleeping) {
-          dispatch(wakePlayground());
+          wakeFromSleep();
         }
       }
 
@@ -80,7 +90,7 @@ export function ShellLayout() {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [closeContextMenu, dispatch, openContextMenu, sleeping]);
+  }, [closeContextMenu, openContextMenu, sleeping, wakeFromSleep]);
 
   return (
     <div
@@ -166,13 +176,14 @@ export function ShellLayout() {
             closeContextMenu();
           }}
           onSleep={() => {
+            setSleepState("entered");
             dispatch(sleepPlayground());
             closeContextMenu();
           }}
         />
       ) : null}
 
-      {sleeping ? <SleepScreen onWake={() => dispatch(wakePlayground())} /> : null}
+      {sleeping ? <SleepScreen state={sleepState} onWake={wakeFromSleep} /> : null}
     </div>
   );
 }
@@ -348,10 +359,11 @@ function DesktopContextMenu({
 }
 
 type SleepScreenProps = {
+  state: "entered" | "exiting";
   onWake: () => void;
 };
 
-function SleepScreen({ onWake }: SleepScreenProps) {
+function SleepScreen({ state, onWake }: SleepScreenProps) {
   const [now, setNow] = useState(() => new Date());
   const wakeButtonRef = useRef<HTMLButtonElement>(null);
   const timeLabel = useMemo(
@@ -384,6 +396,7 @@ function SleepScreen({ onWake }: SleepScreenProps) {
       aria-label="Focus screen"
       aria-modal="true"
       className="sleep-screen"
+      data-state={state}
       role="dialog"
       onClick={onWake}
     >
@@ -392,9 +405,21 @@ function SleepScreen({ onWake }: SleepScreenProps) {
         <strong>{timeLabel}</strong>
       </div>
       <button
-        className="sleep-screen-wake"
+        className="button-spotlight sleep-screen-wake"
         ref={wakeButtonRef}
         type="button"
+        onPointerMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+
+          event.currentTarget.style.setProperty(
+            "--button-spotlight-x",
+            `${event.clientX - rect.left}px`
+          );
+          event.currentTarget.style.setProperty(
+            "--button-spotlight-y",
+            `${event.clientY - rect.top}px`
+          );
+        }}
         onClick={(event) => {
           event.stopPropagation();
           onWake();
