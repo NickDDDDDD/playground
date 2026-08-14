@@ -1,4 +1,4 @@
-import { cn } from "@playground/ui";
+import { Button, cn } from "@playground/ui";
 import { Clipboard, FlaskConical, Moon, Play, TerminalSquare } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { MouseEvent, PointerEvent as ReactPointerEvent } from "react";
@@ -429,12 +429,15 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       <span className="mac-dock-tooltip" aria-hidden="true">
         {label}
       </span>
-      <span
-        className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground sm:size-14"
-        data-dock-icon
+      <Button
+        asChild
+        className="mac-dock-icon flex size-[3.25rem] p-0 text-primary-foreground hover:bg-transparent hover:text-primary-foreground focus-visible:ring-0 active:translate-y-0 sm:size-14"
+        variant="ghost"
       >
-        <FlaskConical aria-hidden="true" className="mac-dock-icon-glyph" strokeWidth={2.35} />
-      </span>
+        <span data-dock-icon>
+          <FlaskConical aria-hidden="true" className="mac-dock-icon-glyph" strokeWidth={2.35} />
+        </span>
+      </Button>
       <span
         className="mac-dock-running-dot opacity-0 transition-opacity data-[active=true]:opacity-100"
         data-active={active}

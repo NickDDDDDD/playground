@@ -36,6 +36,18 @@ test("shell home opens experiments from the dock and window controls work", asyn
     .toBeGreaterThan(baseIconWidth + 4);
 
   await dock.getByRole("link", { name: "Welcome Lab" }).hover();
+  await expect(dockIcon).toHaveClass(/button-spotlight/);
+  await expect
+    .poll(async () =>
+      dockIcon.evaluate((element) => ({
+        x: element.style.getPropertyValue("--button-spotlight-x"),
+        y: element.style.getPropertyValue("--button-spotlight-y")
+      }))
+    )
+    .toMatchObject({
+      x: /\d+(\.\d+)?px/,
+      y: /\d+(\.\d+)?px/
+    });
   await expect
     .poll(async () => (await dockIcon.boundingBox())?.width ?? 0)
     .toBeLessThan(baseIconWidth * 1.75);
