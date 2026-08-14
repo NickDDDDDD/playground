@@ -384,7 +384,10 @@
     -webkit-backdrop-filter: blur(18px) saturate(150%);
   }
 
-  .sleep-screen-wake:hover,
+  .sleep-screen-wake:hover {
+    outline: none;
+  }
+
   .sleep-screen-wake:focus-visible {
     outline: none;
     box-shadow:
