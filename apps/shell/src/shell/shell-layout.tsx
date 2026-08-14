@@ -161,8 +161,9 @@ function DockLink({ active, id, label, to, onNavigate }: DockLinkProps) {
       to={to}
       onClick={() => onNavigate(id)}
     >
-      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 group-hover/dock:scale-[1.12] sm:size-14 [&_svg]:size-6">
-        <FlaskConical />
+      <span className="mac-dock-icon flex size-[3.25rem] items-center justify-center text-primary-foreground transition-transform duration-150 group-hover/dock:scale-[1.12] sm:size-14">
+        <span aria-hidden="true" className="mac-dock-icon-lens" />
+        <FlaskConical aria-hidden="true" className="mac-dock-icon-glyph" strokeWidth={2.35} />
       </span>
       <span className="mac-dock-running-dot opacity-0 transition-opacity data-[active=true]:opacity-100" data-active={active} />
     </NavLink>
