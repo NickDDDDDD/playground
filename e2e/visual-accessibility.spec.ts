@@ -50,6 +50,31 @@ test.describe("visual accessibility", () => {
     expect(material.borderColor).toBe("rgba(255, 255, 255, 0.46)");
     expect(material.boxShadow).toContain("rgba(16, 16, 25, 0.2) 0px 18px 56px");
   });
+
+  test("overview cards keep enough shadow bleed inside the scroll container", async ({ page }) => {
+    await page.goto("/");
+
+    const bleed = await page.locator("main section").evaluate((section) => {
+      const main = section.closest("main");
+      const firstCard = section.querySelector(".liquid-card");
+
+      if (!main || !firstCard) {
+        return null;
+      }
+
+      const mainRect = main.getBoundingClientRect();
+      const cardRect = firstCard.getBoundingClientRect();
+
+      return {
+        left: cardRect.left - mainRect.left,
+        top: cardRect.top - mainRect.top
+      };
+    });
+
+    expect(bleed).not.toBeNull();
+    expect(bleed?.left).toBeGreaterThanOrEqual(32);
+    expect(bleed?.top).toBeGreaterThanOrEqual(32);
+  });
 });
 
 type ContrastFailure = {

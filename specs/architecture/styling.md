@@ -27,6 +27,7 @@
 - shell 使用桌面层、实验窗口和底部 Dock。
 - Overview 直接作为桌面 widget 渲染，不包进窗口。
 - Overview 桌面 widget 的 hover motion 只用于主行动卡片和实验入口卡片；状态卡、功能说明卡等信息展示卡保持静态，避免桌面元素过度漂浮。
+- Overview 桌面 widget 必须给 `liquid-card` 阴影预留 bleed 空间；卡片不能贴着 scroll container 边缘，否则玻璃阴影会被外层 `overflow-y-auto` 裁切，形成可见的 section 边界。
 - `desktop-widget-motion` 只允许短时 `transform` 位移，不使用布局属性动画。
 - Overview 桌面 widget 内的主 action 应响应整张可行动卡片 hover：按钮整体轻微右移，不只移动按钮内 icon。
 - 主按钮 hover 可以使用统一的 `button-spotlight` 径向高光；React `Button` primitive 和其他手动套用 `button-spotlight` 的可行动元素都必须写入鼠标位置 CSS 变量，让高光跟随指针。高光只改变 opacity/background，不改变布局。
