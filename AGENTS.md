@@ -99,5 +99,8 @@ UI 修改完成后，至少检查 desktop 和 mobile viewport。优先使用 Pla
 ## Git 约定
 
 - 当前远端使用 HTTPS：`https://github.com/NickDDDDDD/playground.git`。
+- 同一个小问题或同一轮 UI debug 不要每改一小步就 commit/push；先本地迭代、浏览器验证、清理临时产物，等问题完整收束后再提交。
+- 用户还在反馈“还是有”“再看看”“不对”等未确认状态时，默认不要提交；除非用户明确要求保存当前检查点。
+- 每次提交应该对应一个稳定、可解释的完成点，例如一个完整 bugfix、一个 spec 决策、一个可独立 review 的功能切片。
 - 提交前检查 `git status -sb`，避免混入无关改动。
 - 提交信息保持简短明确，例如 `docs: update agent workflow`。

@@ -52,6 +52,7 @@ test.describe("visual accessibility", () => {
   });
 
   test("overview cards keep enough shadow bleed inside the scroll container", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/");
 
     const bleed = await page.locator("main section").evaluate((section) => {
@@ -67,12 +68,17 @@ test.describe("visual accessibility", () => {
 
       return {
         left: cardRect.left - mainRect.left,
+        mainLeft: mainRect.left,
+        mainWidth: mainRect.width,
+        sectionWidth: section.getBoundingClientRect().width,
         top: cardRect.top - mainRect.top
       };
     });
 
     expect(bleed).not.toBeNull();
     expect(bleed?.left).toBeGreaterThanOrEqual(32);
+    expect(bleed?.mainLeft).toBeLessThanOrEqual(24);
+    expect(bleed?.mainWidth).toBeGreaterThan(bleed?.sectionWidth ?? 0);
     expect(bleed?.top).toBeGreaterThanOrEqual(32);
   });
 });

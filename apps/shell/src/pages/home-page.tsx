@@ -21,7 +21,7 @@ export function HomePage() {
 
   return (
     <section
-      className="grid w-full auto-rows-min grid-cols-1 gap-4 px-5 py-5 sm:grid-cols-6 sm:gap-5 sm:px-8 sm:py-8 lg:grid-cols-12"
+      className="mx-auto grid w-full max-w-7xl auto-rows-min grid-cols-1 gap-4 px-5 py-5 sm:grid-cols-6 sm:gap-5 sm:px-8 sm:py-8 lg:grid-cols-12"
       ref={pageRef}
     >
       <div
