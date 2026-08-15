@@ -22,8 +22,9 @@ Design direction -> UI implementation -> visual audit -> browser review -> itera
 - `readme-creator`：来源 `mblode/agent-skills`，安装到 `C:\Users\User\.agents\skills\readme-creator`。
 - `planning`：来源 `mblode/agent-skills`，安装到 `C:\Users\User\.agents\skills\planning`。
 - `agents-md`：来源 `mblode/agent-skills`，安装到 `C:\Users\User\.agents\skills\agents-md`。
+- `create-playground-experiment`：项目级 skill，项目内来源为 `.codex/skills/create-playground-experiment`。
 
-这些 skills 通过 `npx skills list -g --agent codex --json` 验证为 Codex 全局 skills。
+用户级 skills 通过 `npx skills list -g --agent codex --json` 验证为 Codex 全局 skills；项目级 skills 以仓库内 `.codex/skills/*` 为准。
 
 ## 当前项目技术栈
 
@@ -140,6 +141,18 @@ Design direction -> UI implementation -> visual audit -> browser review -> itera
 - 审计、评分和重构 `AGENTS.md` / `CLAUDE.md`。
 - 保持 agent 指令精简、可执行、命令真实、职责清楚。
 - 不用通用 `docs-writing` 替代它。
+
+### Playground Experiment Creation
+
+使用 `create-playground-experiment`。
+
+职责：
+
+- 当用户要求新建实验、创建 playground 小项目、添加技术探索 lab 或生成 experiment package 时触发。
+- 调用仓库脚手架 `pnpm create:experiment <name>` 生成基础实验包。
+- 补全实验 spec，注册到 `apps/shell/src/experiments.ts`，并验证 shell 挂载和独立运行。
+- 保持 `scripts/create-experiment.mjs` 作为仓库内 canonical scaffolder，不把脚本逻辑复制进 skill。
+- 维护时以 `.codex/skills/create-playground-experiment/SKILL.md` 为唯一事实来源。
 
 ## 名称映射
 

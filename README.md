@@ -25,6 +25,13 @@ pnpm build
 pnpm test:e2e
 ```
 
+## Project Layout
+
+- `apps/` contains runnable applications such as the shell.
+- `packages/` contains shared workspace packages.
+- `experiments/` contains independently runnable playground experiments.
+- `tests/` contains test configuration, Playwright E2E tests, setup files, and ignored test outputs.
+
 ## Development Flow
 
 1. Read the relevant spec under `specs/` before changing code.

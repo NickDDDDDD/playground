@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Playground Experiment"
+  short_description: "Create and register a Playground experiment"
+  default_prompt: "Create a new Playground experiment named <name>."

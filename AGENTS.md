@@ -17,6 +17,7 @@
 - `packages/ui`：共享 shadcn-style UI primitives 和 Tailwind 全局样式。
 - `packages/experiment-contract`：实验包接入 shell 的公开类型契约。
 - `experiments/*`：每个技术探索实验，一个实验一个 workspace package。
+- `tests/`：测试配置、Vitest setup、Playwright E2E、测试报告和运行结果目录。
 - `specs/`：SDD 规格文档。
 - `docs/adr/`：架构决策记录。
 
@@ -26,7 +27,7 @@
 2. 如果实验需要新的长期约定，更新对应 `specs/architecture/*.md`。
 3. 如果涉及架构决策，新增 `docs/adr/<number>-<slug>.md`。
 4. 实验包必须导出 `ExperimentModule`，并支持 shell 挂载和独立运行。
-5. 新实验默认通过 `pnpm create:experiment <name>` 生成，再按 spec 修改。
+5. 新实验默认使用项目内 `.codex/skills/create-playground-experiment` skill；该 skill 调用 `pnpm create:experiment <name>` 生成基础包，并继续完成 shell 注册、spec 更新和验证。
 
 ## 路由和状态约定
 

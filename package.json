@@ -9,11 +9,11 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
-    "test": "vitest run",
-    "test:unit": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test --headed",
-    "test:e2e:headless": "playwright test",
+    "test": "vitest run --config tests/vitest.config.ts",
+    "test:unit": "vitest run --config tests/vitest.config.ts",
+    "test:watch": "vitest --config tests/vitest.config.ts",
+    "test:e2e": "playwright test --config tests/playwright.config.ts --headed",
+    "test:e2e:headless": "playwright test --config tests/playwright.config.ts",
     "create:experiment": "node scripts/create-experiment.mjs"
   },
   "devDependencies": {

@@ -12,6 +12,9 @@
 
 ## 约束
 
+- 测试相关目录统一收束在 `tests/` 下；Playwright E2E 测试放在 `tests/e2e/`。
+- 测试配置也归入 `tests/`：Playwright 使用 `tests/playwright.config.ts`，Vitest 使用 `tests/vitest.config.ts`，Vitest setup 放在 `tests/setup/`。
+- 测试运行产物归入 `tests/` 下的忽略目录：Playwright 输出放在 `tests/results/playwright`，测试报告放在 `tests/reports`，coverage 放在 `tests/coverage`。
 - 占位实验不强制写测试；即将被替换的实验优先避免测试负担。
 - 稳定层优先测试，例如 shell 状态、共享 UI primitives、实验接入契约和长期存在的工具函数。
 - 真实布局、路由流和浏览器行为使用 Playwright 或 Codex 浏览器验证；不要用 jsdom 判断真实 CSS layout。
