@@ -2,10 +2,14 @@ import * as React from "react";
 import { cn } from "../lib/cn";
 
 export function Card({ className, ...props }: React.ComponentProps<"div">) {
+  const hasLiquidMaterial =
+    typeof className === "string" && className.split(/\s+/).includes("liquid-card");
+
   return (
     <div
       className={cn(
-        "min-w-0 rounded-lg border border-border bg-card text-card-foreground shadow-sm",
+        "min-w-0 rounded-lg border text-card-foreground",
+        !hasLiquidMaterial && "border-border bg-card shadow-sm",
         className
       )}
       {...props}

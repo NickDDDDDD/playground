@@ -66,6 +66,7 @@
 - `liquid-card`：内容卡片级 glass surface。
 
 这些 class 必须包含 reduced-transparency 和 high-contrast fallback。业务组件不应该散落重复的 glass CSS。
+组件 primitive 如果允许传入 `liquid-card`，必须让 `liquid-card` 接管背景、边框颜色和阴影；不要让默认 `bg-card`、`border-border`、`shadow-sm` 等 utility 覆盖 glass material。
 
 ## Tailwind Source Discovery
 

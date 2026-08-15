@@ -29,6 +29,27 @@ test.describe("visual accessibility", () => {
     const openButton = page.getByRole("link", { name: /Open first lab/ });
     await expect(openButton).toHaveCSS("color", "rgb(255, 255, 255)");
   });
+
+  test("liquid card material is not overridden by card primitive defaults", async ({ page }) => {
+    await page.goto("/");
+
+    const featureCard = page.locator(".liquid-card", { hasText: "Monorepo" });
+    await expect(featureCard).toBeVisible();
+
+    const material = await featureCard.evaluate((element) => {
+      const style = window.getComputedStyle(element);
+
+      return {
+        background: style.background,
+        borderColor: style.borderColor,
+        boxShadow: style.boxShadow
+      };
+    });
+
+    expect(material.background).toContain("rgba(255, 255, 255, 0.22)");
+    expect(material.borderColor).toBe("rgba(255, 255, 255, 0.46)");
+    expect(material.boxShadow).toContain("rgba(16, 16, 25, 0.2) 0px 18px 56px");
+  });
 });
 
 type ContrastFailure = {
